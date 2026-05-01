@@ -1,0 +1,32 @@
+# 依存
+node_modules/
+.pnpm-store/
+
+# ビルド成果物
+dist/
+.astro/
+.cache/
+
+# Cloudflare
+.wrangler/
+.dev.vars                 # ローカル秘密情報(ANTHROPIC_API_KEY 等)
+
+# 環境
+.env
+.env.*
+!.env.example
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ログ
+*.log
+npm-debug.log*
+
+# 内部メモ(必要に応じてコミットしないもの)
+notes-private/

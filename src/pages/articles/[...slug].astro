@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles', ({ data }) => data.status === 'published');
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+interface Props {
+  article: CollectionEntry<'articles'>;
+}
+
+const { article } = Astro.props;
+const { Content } = await article.render();
+
+const formatDate = (d: Date) => {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
+---
+
+<BaseLayout title={article.data.title} description={article.data.excerpt}>
+  <article class="prose">
+    <header class="article-header">
+      <h1 class="article-title">{article.data.title}</h1>
+      <p class="article-meta">
+        <time datetime={article.data.date.toISOString()}>
+          {formatDate(article.data.date)}
+        </time>
+        {article.data.updated && article.data.updated.valueOf() !== article.data.date.valueOf() && (
+          <span class="article-updated">
+            (最終更新: {formatDate(article.data.updated)})
+          </span>
+        )}
+        <span class="article-author">執筆: ハル</span>
+      </p>
+      {article.data.tags.length > 0 && (
+        <p class="article-tags">
+          {article.data.tags.map((tag) => (
+            <span class="tag">#{tag}</span>
+          ))}
+        </p>
+      )}
+    </header>
+
+    <div class="article-body">
+      <Content />
+    </div>
+
+    {article.data.change_log.length > 0 && (
+      <details class="change-log">
+        <summary>この記事の変遷({article.data.change_log.length}回更新)</summary>
+        <ol class="change-log-list">
+          {article.data.change_log
+            .slice()
+            .sort((a, b) => b.date.valueOf() - a.date.valueOf())
+            .map((entry) => (
+              <li class="change-log-entry">
+                <time>{formatDate(entry.date)}</time>
+                <span class="change-agent">{entry.agent}</span>
+                <p class="change-summary">{entry.summary}</p>
+                <p class="change-reason">理由: {entry.reason}</p>
+              </li>
+            ))}
+        </ol>
+      </details>
+    )}
+
+    <nav class="article-nav">
+      <a href="/">← タイムラインへ戻る</a>
+    </nav>
+  </article>
+</BaseLayout>

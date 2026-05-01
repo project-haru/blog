@@ -1,0 +1,297 @@
+/* Project HARU 共通スタイル v0.2
+ * 思想: 静謐・読みやすさ・紙の質感
+ * Phase 1: タイムライン式ホーム + 記事詳細ページ */
+
+:root {
+  --color-bg: #faf8f3;
+  --color-text: #2a2620;
+  --color-text-soft: #5e574c;
+  --color-accent: #8a3f2a;
+  --color-rule: #d8d0c0;
+  --color-card-bg: #fffef9;
+  --color-tag-bg: #f0e9d8;
+
+  --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", serif;
+  --font-sans: "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", sans-serif;
+  --font-mono: "Menlo", "Monaco", "Consolas", monospace;
+
+  --max-width: 720px;
+  --leading: 1.85;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-serif);
+  line-height: var(--leading);
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--color-accent);
+}
+a:hover { border-bottom-style: solid; }
+
+/* ===== ヘッダ ===== */
+.site-header {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 1.5rem;
+  border-bottom: 1px solid var(--color-rule);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.brand { border: none; color: var(--color-text); display: flex; flex-direction: column; line-height: 1.3; }
+.brand-name { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.02em; }
+.brand-tagline { font-size: 0.85rem; color: var(--color-text-soft); }
+.site-nav { display: flex; gap: 1.25rem; font-size: 0.95rem; }
+.site-nav a { border: none; color: var(--color-text-soft); }
+.site-nav a:hover { color: var(--color-accent); }
+
+/* ===== メイン ===== */
+.site-main { max-width: var(--max-width); margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+/* ===== Hero(トップページ) ===== */
+.hero { margin-bottom: 3rem; }
+.hero-title {
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+.hero-lead { font-size: 1.05rem; margin: 0 0 1rem; }
+.hero-sub { color: var(--color-text-soft); margin: 0; font-size: 0.95rem; }
+
+/* ===== タイムライン ===== */
+.timeline { margin-bottom: 3rem; }
+.timeline-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-bottom: 1px solid var(--color-rule);
+  padding-bottom: 0.4rem;
+  margin: 0 0 1.5rem;
+}
+.timeline-empty {
+  color: var(--color-text-soft);
+  font-style: italic;
+  padding: 1rem 0;
+}
+.timeline-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+.timeline-entry {
+  position: relative;
+  padding: 0 0 1.5rem 7rem;
+  border-left: 2px solid var(--color-rule);
+  margin-left: 5.5rem;
+}
+.timeline-entry:last-child { border-left-color: transparent; }
+.timeline-entry::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 0.4rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+.timeline-date {
+  position: absolute;
+  left: -5.5rem;
+  top: 0;
+  width: 5rem;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-text-soft);
+  padding-right: 0.5rem;
+}
+.timeline-body { padding-left: 0.5rem; }
+.timeline-entry-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  line-height: 1.4;
+}
+.timeline-entry-title a {
+  color: var(--color-text);
+  border: none;
+}
+.timeline-entry-title a:hover { color: var(--color-accent); }
+.timeline-excerpt {
+  color: var(--color-text-soft);
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+}
+.timeline-tags { margin: 0; }
+
+/* ===== タグ ===== */
+.tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--color-text-soft);
+  background: var(--color-tag-bg);
+  padding: 0.1rem 0.5rem;
+  margin-right: 0.3rem;
+  border-radius: 2px;
+  font-family: var(--font-sans);
+}
+
+/* ===== メタ説明(トップページ末尾) ===== */
+.meta-note { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--color-rule); }
+.meta-note h2 { font-size: 1.05rem; font-weight: 700; margin: 0 0 0.75rem; }
+.meta-note p { color: var(--color-text-soft); margin: 0 0 0.75rem; font-size: 0.95rem; }
+
+/* ===== 記事詳細ページ ===== */
+.prose { max-width: 100%; }
+.article-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-rule);
+}
+.article-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+.article-meta {
+  font-size: 0.85rem;
+  color: var(--color-text-soft);
+  margin: 0 0 0.75rem;
+  font-family: var(--font-mono);
+}
+.article-meta time { margin-right: 1rem; }
+.article-updated { margin-right: 1rem; }
+.article-author { font-family: var(--font-serif); }
+.article-tags { margin: 0.5rem 0 0; }
+
+.article-body { font-size: 1.05rem; }
+.article-body h2 {
+  margin-top: 2.5rem;
+  font-size: 1.25rem;
+  border-bottom: 1px solid var(--color-rule);
+  padding-bottom: 0.3rem;
+}
+.article-body h3 {
+  margin-top: 1.8rem;
+  font-size: 1.1rem;
+}
+.article-body p { margin: 0 0 1.2rem; }
+.article-body blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1rem;
+  color: var(--color-text-soft);
+  margin: 1.2rem 0;
+  font-style: italic;
+}
+.article-body code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--color-tag-bg);
+  padding: 0.1rem 0.3rem;
+  border-radius: 2px;
+}
+.article-body hr {
+  border: none;
+  border-top: 1px solid var(--color-rule);
+  margin: 2rem 0;
+}
+
+/* ===== 更新履歴(change_log) ===== */
+.change-log {
+  margin-top: 3rem;
+  padding: 1rem 1.25rem;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-rule);
+  border-radius: 2px;
+  font-size: 0.9rem;
+}
+.change-log summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--color-text-soft);
+}
+.change-log[open] summary { margin-bottom: 1rem; }
+.change-log-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.change-log-entry {
+  padding: 0.75rem 0;
+  border-bottom: 1px dotted var(--color-rule);
+}
+.change-log-entry:last-child { border-bottom: none; }
+.change-log-entry time {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-soft);
+  margin-right: 0.75rem;
+}
+.change-agent {
+  display: inline-block;
+  font-size: 0.75rem;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  padding: 0.05rem 0.4rem;
+  border-radius: 2px;
+  font-family: var(--font-sans);
+}
+.change-summary { margin: 0.4rem 0 0.2rem; font-weight: 700; }
+.change-reason { margin: 0; color: var(--color-text-soft); font-size: 0.85rem; }
+
+/* ===== 記事末尾ナビ ===== */
+.article-nav {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-rule);
+}
+
+/* ===== フッタ ===== */
+.site-footer {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  border-top: 1px solid var(--color-rule);
+  color: var(--color-text-soft);
+  font-size: 0.85rem;
+  text-align: center;
+}
+.footer-line { margin: 0 0 0.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.footer-meta { margin: 0; }
+
+/* ===== モバイル ===== */
+@media (max-width: 600px) {
+  html, body { font-size: 16px; }
+  .site-header { flex-direction: column; align-items: flex-start; }
+  .hero-title { font-size: 1.4rem; }
+  .article-title { font-size: 1.35rem; }
+
+  /* タイムラインは縦長レイアウトに変更 */
+  .timeline-entry {
+    padding-left: 1.5rem;
+    margin-left: 0.5rem;
+  }
+  .timeline-date {
+    position: static;
+    width: auto;
+    text-align: left;
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+}
