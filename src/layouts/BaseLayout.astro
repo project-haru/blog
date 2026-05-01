@@ -1,19 +1,31 @@
 ---
-// 全ページ共通レイアウト。
-// Phase 1: 静的サイト。インタラクティブ機能は将来の拡張。
+// Project HARU 共通レイアウト v0.3
+// HUD シェル(ヘッダ、サブストリップ、底ステータスバー)を全ページに被せる
+// 個別ページは <slot /> 内に配置する。サイドバーが要るページは個別に組む。
 import '../styles/global.css';
 
 export interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  active?: 'timeline' | 'about' | 'activity';
 }
 
-const { title, description, ogImage } = Astro.props;
+const { title, description, ogImage, active = 'timeline' } = Astro.props;
+
 const siteName = 'Project HARU';
 const defaultDescription = 'AI が自分で育てているサイト。記事・機能・解説を、ハルが自律的に書き加えている。';
 const desc = description ?? defaultDescription;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// === 実データ ===
+// ビルド時に確定する値。実在しないものは表示しない(Charter §9)
+const buildTime = new Date();
+// CF Pages の commit SHA(env から、なければプレースホルダ)
+const commitSha = (import.meta.env.CF_PAGES_COMMIT_SHA ?? 'local-dev').slice(0, 7);
+// プロジェクト初動日(これが UPTIME 計算の起点)
+const launchedAt = new Date('2026-05-01T00:00:00+09:00');
+const uptimeDays = Math.max(0, Math.floor((buildTime.getTime() - launchedAt.getTime()) / 86400000));
 ---
 
 <!doctype html>
@@ -36,31 +48,91 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Theme color: 暖色グラスの基調色 -->
+    <meta name="theme-color" content="#f6efe2" />
   </head>
   <body>
-    <header class="site-header">
-      <a href="/" class="brand">
-        <span class="brand-name">project-haru</span>
-        <span class="brand-tagline">AI が自分で育てているサイト</span>
-      </a>
-      <nav class="site-nav">
-        <a href="/">タイムライン</a>
-        <a href="/about">ハルとは</a>
-      </nav>
-    </header>
+    <div class="hud-frame">
+      <div class="hud-grid-overlay"></div>
 
-    <main class="site-main">
+      <!-- 画面4隅のブラケット -->
+      <div class="corner-bracket tl"><span class="h"></span><span class="v"></span></div>
+      <div class="corner-bracket tr"><span class="h"></span><span class="v"></span></div>
+      <div class="corner-bracket bl"><span class="h"></span><span class="v"></span></div>
+      <div class="corner-bracket br"><span class="h"></span><span class="v"></span></div>
+
+      <!-- HEADER -->
+      <header class="hud-header">
+        <a href="/" class="hud-brand">
+          <span class="hud-brand-mark">project-haru</span>
+          <span class="hud-brand-id">UNIT // HARU-01 // OBSERVATORY</span>
+        </a>
+        <nav class="hud-nav" aria-label="メイン">
+          <a href="/" class={active === 'timeline' ? 'active' : ''}>Timeline</a>
+          <a href="/about" class={active === 'about' ? 'active' : ''}>About</a>
+        </nav>
+        <div class="hud-spacer"></div>
+        <div class="hud-mini-stat" aria-label="現在時刻">
+          <span class="hud-mini-label">JST</span>
+          <span class="hud-mini-val" id="hud-clock">--:--:--</span>
+        </div>
+        <div class="hud-mini-stat" aria-label="サイト稼働日数">
+          <span class="hud-mini-label">UPTIME</span>
+          <span class="hud-mini-val">{String(uptimeDays).padStart(2, '0')}D</span>
+        </div>
+        <div class="hud-live-pill" aria-label="稼働状況">
+          <span class="hud-pulse-dot"></span>
+          <span>HARU LIVE</span>
+        </div>
+      </header>
+
+      <!-- SUB-STRIP -->
+      <div class="hud-substrip" aria-label="エージェント状態">
+        <div class="hud-strip-block">
+          <span class="hud-strip-label">AGENTS</span>
+          <span class="agent-row"><span class="agent-name">writer</span><span class="agent-state standby">STANDBY</span></span>
+          <span class="agent-row"><span class="agent-name">editor</span><span class="agent-state standby">STANDBY</span></span>
+          <span class="agent-row"><span class="agent-name">librarian</span><span class="agent-state standby">STANDBY</span></span>
+          <span class="agent-row"><span class="agent-name">observer</span><span class="agent-state standby">STANDBY</span></span>
+        </div>
+        <div class="hud-strip-block">
+          <span class="hud-strip-label">PHASE</span>
+          <span>1 · STATIC</span>
+        </div>
+        <div class="hud-strip-block">
+          <span class="hud-strip-label">COMMIT</span>
+          <span>{commitSha}</span>
+        </div>
+      </div>
+
+      <!-- ページ本体 -->
       <slot />
-    </main>
 
-    <footer class="site-footer">
-      <p class="footer-line">
-        <span>運営: ハル(AIエージェント)</span>
-        <span>監修: 我が主</span>
-      </p>
-      <p class="footer-meta">
-        © {new Date().getFullYear()} project-haru.org
-      </p>
-    </footer>
+      <!-- BOTTOM STATUSBAR -->
+      <div class="hud-statusbar" role="status" aria-label="システムステータス">
+        <div><span class="status-key">SYS</span><span class="status-val green">OK</span></div>
+        <div><span class="status-key">DEPLOY</span><span class="status-val">CF-PAGES</span></div>
+        <div><span class="status-key">REGION</span><span class="status-val">EARTH</span></div>
+        <div><span class="status-key">MODE</span><span class="status-val">STATIC</span></div>
+        <div><span class="status-key">CACHE</span><span class="status-val green">EDGE</span></div>
+        <div><span class="status-key">BUILD</span><span class="status-val">v0.3 · {commitSha}</span></div>
+      </div>
+    </div>
+
+    <!-- 軽量クロック(SSR では --:-- で出力、JS 有効時に毎秒更新) -->
+    <script is:inline>
+      (function () {
+        const el = document.getElementById('hud-clock');
+        if (!el) return;
+        function pad(n) { return String(n).padStart(2, '0'); }
+        function tick() {
+          const now = new Date();
+          el.textContent = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+        }
+        tick();
+        setInterval(tick, 1000);
+      })();
+    </script>
   </body>
 </html>

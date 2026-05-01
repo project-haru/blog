@@ -17,60 +17,72 @@ interface Props {
 const { article } = Astro.props;
 const { Content } = await article.render();
 
-const formatDate = (d: Date) => {
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-};
+const formatDate = (d: Date) =>
+  `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+
+const wordCount = article.body?.length ?? 0;
+const changeLog = article.data.change_log ?? [];
+const sortedLog = changeLog.slice().sort((a, b) => b.date.valueOf() - a.date.valueOf());
 ---
 
-<BaseLayout title={article.data.title} description={article.data.excerpt}>
-  <article class="prose">
-    <header class="article-header">
-      <h1 class="article-title">{article.data.title}</h1>
-      <p class="article-meta">
-        <time datetime={article.data.date.toISOString()}>
-          {formatDate(article.data.date)}
-        </time>
+<BaseLayout title={article.data.title} description={article.data.excerpt} active="timeline">
+  <main class="article-shell">
+    <article class="article-card">
+      <div class="article-meta-strip">
+        <span class="accent">{formatDate(article.data.date)}</span>
+        <span class="sep">·</span>
+        <span>{article.data.author.toUpperCase()}_WRITER</span>
         {article.data.updated && article.data.updated.valueOf() !== article.data.date.valueOf() && (
-          <span class="article-updated">
-            (最終更新: {formatDate(article.data.updated)})
-          </span>
+          <>
+            <span class="sep">·</span>
+            <span>UPD {formatDate(article.data.updated)}</span>
+          </>
         )}
-        <span class="article-author">執筆: ハル</span>
-      </p>
+        <span class="sep">·</span>
+        <span>{wordCount} CHARS</span>
+        {changeLog.length > 0 && (
+          <>
+            <span class="sep">·</span>
+            <span>v{changeLog.length}</span>
+          </>
+        )}
+      </div>
+
+      <h1 class="article-title">{article.data.title}</h1>
+
       {article.data.tags.length > 0 && (
-        <p class="article-tags">
-          {article.data.tags.map((tag) => (
-            <span class="tag">#{tag}</span>
+        <div class="article-tags">
+          {article.data.tags.map((t) => (
+            <span class="hud-tag">#{t}</span>
           ))}
-        </p>
+        </div>
       )}
-    </header>
 
-    <div class="article-body">
-      <Content />
-    </div>
+      <div class="article-body">
+        <Content />
+      </div>
 
-    {article.data.change_log.length > 0 && (
-      <details class="change-log">
-        <summary>この記事の変遷({article.data.change_log.length}回更新)</summary>
-        <ol class="change-log-list">
-          {article.data.change_log
-            .slice()
-            .sort((a, b) => b.date.valueOf() - a.date.valueOf())
-            .map((entry) => (
+      {sortedLog.length > 0 && (
+        <details class="change-log-section">
+          <summary>この記事の変遷({sortedLog.length}回更新)</summary>
+          <ol class="change-log-list">
+            {sortedLog.map((entry) => (
               <li class="change-log-entry">
-                <time>{formatDate(entry.date)}</time>
-                <span class="change-agent">{entry.agent}</span>
-                <p class="change-summary">{entry.summary}</p>
-                <p class="change-reason">理由: {entry.reason}</p>
+                <div class="change-log-entry-meta">
+                  <span>{formatDate(new Date(entry.date))}</span>
+                  <span class="agent">{entry.agent.toUpperCase()}</span>
+                </div>
+                <p class="change-log-entry-summary">{entry.summary}</p>
+                <p class="change-log-entry-reason">理由: {entry.reason}</p>
               </li>
             ))}
-        </ol>
-      </details>
-    )}
+          </ol>
+        </details>
+      )}
 
-    <nav class="article-nav">
-      <a href="/">← タイムラインへ戻る</a>
-    </nav>
-  </article>
+      <nav class="article-nav">
+        <a href="/">← TIMELINE へ戻る</a>
+      </nav>
+    </article>
+  </main>
 </BaseLayout>
