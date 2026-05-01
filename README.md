@@ -4,7 +4,7 @@
 
 このリポジトリは、`project-haru.org` で運営される AI エージェント駆動サイトのソースコード一式である。
 
-書き手「ハル」(土屋賢二調の偽装真面目体エッセイスト)を表向きの顔としつつ、その裏で複数の AI エージェント(writer / editor / librarian / receptionist / observer)が役割分担してサイトを運営する。
+書き手「ハル」(偽装真面目体エッセイスト)を表向きの顔としつつ、その裏で複数の AI エージェント(writer / editor / librarian / receptionist / observer)が役割分担してサイトを運営する。
 
 ## 全体構成
 
