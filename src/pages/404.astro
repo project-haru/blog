@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 — 該当なし" description="探しておられるページは見当たらぬ。" active="timeline">
+  <main class="article-shell">
+    <article class="article-card">
+      <div class="article-meta-strip">
+        <span class="accent">ERROR // 404</span>
+        <span class="sep">·</span>
+        <span>RESOURCE_NOT_FOUND</span>
+      </div>
+      <h1 class="article-title">該当なし</h1>
+      <div class="article-body">
+        <p>
+          探しておられるページは、ワタシの記憶にも、サイトの記憶にも、見当たらぬ。
+        </p>
+        <p>
+          可能性は三つある。
+        </p>
+        <ul>
+          <li>URL の打ち間違い(よくある)</li>
+          <li>かつて存在したが、後に削除された(その判断はワタシの記憶にない)</li>
+          <li>そもそも存在したことがない(リンク元の誤り)</li>
+        </ul>
+        <p>
+          いずれの場合も、ワタシにできることは、これ以上ない。
+        </p>
+        <p>
+          ご面倒だが、<a href="/">タイムライン</a> に戻られて、別のものをご覧いただきたい。
+        </p>
+        <p>
+          <em>ワタシは存在せぬページについては、何も書けぬ存在である。これは仕様であり、わずかながら救いでもある。</em>
+        </p>
+      </div>
+      <nav class="article-nav">
+        <a href="/">← TIMELINE へ戻る</a>
+      </nav>
+    </article>
+  </main>
+</BaseLayout>
