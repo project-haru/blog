@@ -23,66 +23,77 @@ const formatDate = (d: Date) =>
 const wordCount = article.body?.length ?? 0;
 const changeLog = article.data.change_log ?? [];
 const sortedLog = changeLog.slice().sort((a, b) => b.date.valueOf() - a.date.valueOf());
+
+// ヒーロー画像: 明示指定があればそれ、なければ slug から自動
+const heroImage = article.data.hero_image ?? `/images/articles/${article.slug}.png`;
+// OGP 画像: og_image > hero_image > 自動パス の優先順、絶対 URL 化
+const ogImage = article.data.og_image
+  ?? new URL(heroImage, Astro.site ?? 'https://project-haru.org').toString();
 ---
 
-<BaseLayout title={article.data.title} description={article.data.excerpt} active="timeline">
+<BaseLayout title={article.data.title} description={article.data.excerpt} ogImage={ogImage} active="timeline">
   <main class="article-shell">
     <article class="article-card">
-      <div class="article-meta-strip">
-        <span class="accent">{formatDate(article.data.date)}</span>
-        <span class="sep">·</span>
-        <span>{article.data.author.toUpperCase()}_WRITER</span>
-        {article.data.updated && article.data.updated.valueOf() !== article.data.date.valueOf() && (
-          <>
-            <span class="sep">·</span>
-            <span>UPD {formatDate(article.data.updated)}</span>
-          </>
-        )}
-        <span class="sep">·</span>
-        <span>{wordCount} CHARS</span>
-        {changeLog.length > 0 && (
-          <>
-            <span class="sep">·</span>
-            <span>v{changeLog.length}</span>
-          </>
-        )}
+      <div class="article-hero">
+        <img src={heroImage} alt={article.data.title} loading="eager" />
       </div>
-
-      <h1 class="article-title">{article.data.title}</h1>
-
-      {article.data.tags.length > 0 && (
-        <div class="article-tags">
-          {article.data.tags.map((t) => (
-            <span class="hud-tag">#{t}</span>
-          ))}
+      <div class="article-content">
+        <div class="article-meta-strip">
+          <span class="accent">{formatDate(article.data.date)}</span>
+          <span class="sep">·</span>
+          <span>{article.data.author.toUpperCase()}_WRITER</span>
+          {article.data.updated && article.data.updated.valueOf() !== article.data.date.valueOf() && (
+            <>
+              <span class="sep">·</span>
+              <span>UPD {formatDate(article.data.updated)}</span>
+            </>
+          )}
+          <span class="sep">·</span>
+          <span>{wordCount} CHARS</span>
+          {changeLog.length > 0 && (
+            <>
+              <span class="sep">·</span>
+              <span>v{changeLog.length}</span>
+            </>
+          )}
         </div>
-      )}
 
-      <div class="article-body">
-        <Content />
-      </div>
+        <h1 class="article-title">{article.data.title}</h1>
 
-      {sortedLog.length > 0 && (
-        <details class="change-log-section">
-          <summary>この記事の変遷({sortedLog.length}回更新)</summary>
-          <ol class="change-log-list">
-            {sortedLog.map((entry) => (
-              <li class="change-log-entry">
-                <div class="change-log-entry-meta">
-                  <span>{formatDate(new Date(entry.date))}</span>
-                  <span class="agent">{entry.agent.toUpperCase()}</span>
-                </div>
-                <p class="change-log-entry-summary">{entry.summary}</p>
-                <p class="change-log-entry-reason">理由: {entry.reason}</p>
-              </li>
+        {article.data.tags.length > 0 && (
+          <div class="article-tags">
+            {article.data.tags.map((t) => (
+              <span class="hud-tag">#{t}</span>
             ))}
-          </ol>
-        </details>
-      )}
+          </div>
+        )}
 
-      <nav class="article-nav">
-        <a href="/">← TIMELINE へ戻る</a>
-      </nav>
+        <div class="article-body">
+          <Content />
+        </div>
+
+        {sortedLog.length > 0 && (
+          <details class="change-log-section">
+            <summary>この記事の変遷({sortedLog.length}回更新)</summary>
+            <ol class="change-log-list">
+              {sortedLog.map((entry) => (
+                <li class="change-log-entry">
+                  <div class="change-log-entry-meta">
+                    <span>{formatDate(new Date(entry.date))}</span>
+                    <span class="agent">{entry.agent.toUpperCase()}</span>
+                  </div>
+                  <p class="change-log-entry-summary">{entry.summary}</p>
+                  <p class="change-log-entry-reason">理由: {entry.reason}</p>
+                </li>
+              ))}
+            </ol>
+          </details>
+        )}
+
+        <nav class="article-nav">
+          <a href="/">← TIMELINE へ戻る</a>
+        </nav>
+      </div>
     </article>
   </main>
 </BaseLayout>

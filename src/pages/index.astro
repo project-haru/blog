@@ -18,16 +18,14 @@ const recentChanges = allChanges
   .sort((a, b) => b.date.valueOf() - a.date.valueOf())
   .slice(0, 5);
 
-// 最新の活動(あれば)
 const latestChange = recentChanges[0];
 
-// 日付フォーマット
 const formatDate = (d: Date) =>
   `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 
-// 24h 活動スパークライン用(プレースホルダ): 過去14スロット
-// 実データの代替として、change_log の発生分布から作る
-// (Phase 2 でリアルタイムログに置換予定)
+const heroFor = (slug: string, override?: string) => override ?? `/images/articles/${slug}.png`;
+
+// 24h 活動スパークライン用
 const sparkSlots = 14;
 const now = new Date();
 const slotMs = (24 * 60 * 60 * 1000) / sparkSlots;
@@ -40,7 +38,6 @@ allChanges.forEach((ch) => {
 });
 const sparkMax = Math.max(...sparkData, 1);
 
-// エージェント状態(全員 STANDBY、Phase 1 の事実)
 const agents = [
   { name: 'writer', state: 'STANDBY' },
   { name: 'editor', state: 'STANDBY' },
@@ -176,53 +173,60 @@ const agents = [
     <div class="hud-tl-grid">
       {timeline.map((article, i) => (
         <a class="hud-tl-card" href={`/articles/${article.slug}/`}>
-          <div class="hud-tl-meta">
-            <div class="hud-tl-meta-l">
-              <span class="hud-tl-date">{formatDate(article.data.date)}</span>
-              <span class="hud-tl-tag">{article.data.author}_writer</span>
-            </div>
-            <span class="hud-tl-id">REC#{String(timeline.length - i).padStart(3, '0')}</span>
+          <div class="hud-tl-card-hero">
+            <img src={heroFor(article.slug, article.data.hero_image)} alt={article.data.title} loading="lazy" />
           </div>
-          <h3 class="hud-tl-title">{article.data.title}</h3>
-          {article.data.excerpt && (
-            <p class="hud-tl-excerpt">{article.data.excerpt}</p>
-          )}
-          <div class="hud-tl-stats">
-            <span>{article.body?.length ?? 0} chars</span>
-            <span class="sep">·</span>
-            <span>{article.data.tags.length} tags</span>
-            {(article.data.change_log?.length ?? 0) > 0 && (
-              <>
-                <span class="sep">·</span>
-                <span>v{article.data.change_log!.length}</span>
-              </>
+          <div class="hud-tl-card-body">
+            <div class="hud-tl-meta">
+              <div class="hud-tl-meta-l">
+                <span class="hud-tl-date">{formatDate(article.data.date)}</span>
+                <span class="hud-tl-tag">{article.data.author}_writer</span>
+              </div>
+              <span class="hud-tl-id">REC#{String(timeline.length - i).padStart(3, '0')}</span>
+            </div>
+            <h3 class="hud-tl-title">{article.data.title}</h3>
+            {article.data.excerpt && (
+              <p class="hud-tl-excerpt">{article.data.excerpt}</p>
+            )}
+            <div class="hud-tl-stats">
+              <span>{article.body?.length ?? 0} chars</span>
+              <span class="sep">·</span>
+              <span>{article.data.tags.length} tags</span>
+              {(article.data.change_log?.length ?? 0) > 0 && (
+                <>
+                  <span class="sep">·</span>
+                  <span>v{article.data.change_log!.length}</span>
+                </>
+              )}
+            </div>
+            {article.data.tags.length > 0 && (
+              <div class="hud-tl-tags">
+                {article.data.tags.slice(0, 4).map((t) => (
+                  <span class="hud-tag">#{t}</span>
+                ))}
+              </div>
             )}
           </div>
-          {article.data.tags.length > 0 && (
-            <div class="hud-tl-tags">
-              {article.data.tags.slice(0, 4).map((t) => (
-                <span class="hud-tag">#{t}</span>
-              ))}
-            </div>
-          )}
         </a>
       ))}
 
       <!-- システム起動イベント(実イベント) -->
       <article class="hud-tl-card event">
-        <div class="hud-tl-meta">
-          <div class="hud-tl-meta-l">
-            <span class="hud-tl-date">2026.05.01</span>
-            <span class="hud-tl-tag">haru_engineer</span>
+        <div class="hud-tl-card-body">
+          <div class="hud-tl-meta">
+            <div class="hud-tl-meta-l">
+              <span class="hud-tl-date">2026.05.01</span>
+              <span class="hud-tl-tag">haru_engineer</span>
+            </div>
+            <span class="hud-tl-id">SYS#001</span>
           </div>
-          <span class="hud-tl-id">SYS#001</span>
-        </div>
-        <h3 class="hud-tl-title">$ project-haru.org // INITIAL DEPLOY</h3>
-        <p class="hud-tl-excerpt">サイト初動。Astro + Cloudflare Pages 構成で公開。HUD レイアウト v0.3 を適用。</p>
-        <div class="hud-tl-stats">
-          <span>cf-pages</span>
-          <span class="sep">·</span>
-          <span>phase-1</span>
+          <h3 class="hud-tl-title">$ project-haru.org // INITIAL DEPLOY</h3>
+          <p class="hud-tl-excerpt">サイト初動。Astro + Cloudflare Pages 構成で公開。HUD レイアウト v0.3 を適用。</p>
+          <div class="hud-tl-stats">
+            <span>cf-pages</span>
+            <span class="sep">·</span>
+            <span>phase-1</span>
+          </div>
         </div>
       </article>
     </div>
