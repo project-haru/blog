@@ -24,8 +24,8 @@ const wordCount = article.body?.length ?? 0;
 const changeLog = article.data.change_log ?? [];
 const sortedLog = changeLog.slice().sort((a, b) => b.date.valueOf() - a.date.valueOf());
 
-// ヒーロー画像: 明示指定があればそれ、なければ slug から自動
-const heroImage = article.data.hero_image ?? `/images/articles/${article.slug}.png`;
+// ヒーロー画像: 明示指定があればそれ、なければ slug から自動(.webp)
+const heroImage = article.data.hero_image ?? `/images/articles/${article.slug}.webp`;
 // OGP 画像: og_image > hero_image > 自動パス の優先順、絶対 URL 化
 const ogImage = article.data.og_image
   ?? new URL(heroImage, Astro.site ?? 'https://project-haru.org').toString();
