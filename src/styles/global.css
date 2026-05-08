@@ -217,9 +217,15 @@ img { max-width: 100%; display: block; }
 .hud-main.full { grid-template-columns: minmax(0, 1fr); }
 
 /* ===== Hero(トップページ) ===== */
-.hud-hero-wrap { position: relative; }
+.hud-hero-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* グリッド行いっぱいまで伸びる */
+}
 .hud-hero {
-  padding: 30px 32px 28px;
+  /* padding-bottom はテレメトリ・ストリップの居場所(下端 12px + 余白)を確保 */
+  padding: 30px 32px 44px;
   border-radius: 22px;
   background: linear-gradient(135deg, var(--glass-bg) 0%, var(--glass-bg-soft) 100%);
   backdrop-filter: blur(28px) saturate(170%);
@@ -228,6 +234,9 @@ img { max-width: 100%; display: block; }
   box-shadow: 0 24px 60px -20px rgba(60, 40, 20, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.85);
   position: relative;
   overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .hud-hero::after {
   content: "";
@@ -245,13 +254,16 @@ img { max-width: 100%; display: block; }
 .hero-bracket.bl { bottom: -6px; left: -6px; border-width: 0 0 1.5px 1.5px; }
 .hero-bracket.br { bottom: -6px; right: -6px; border-width: 0 1.5px 1.5px 0; }
 
-.hero-coord, .hero-coord-r {
-  position: absolute; top: 12px;
+.hero-coord, .hero-coord-r,
+.hero-coord-bottom, .hero-coord-bottom-r {
+  position: absolute;
   font-family: var(--font-mono); font-size: 9px;
   color: var(--ink-dim); letter-spacing: 0.1em; z-index: 2;
 }
-.hero-coord { left: 16px; }
-.hero-coord-r { right: 16px; }
+.hero-coord, .hero-coord-r { top: 12px; }
+.hero-coord-bottom, .hero-coord-bottom-r { bottom: 14px; }
+.hero-coord, .hero-coord-bottom { left: 16px; }
+.hero-coord-r, .hero-coord-bottom-r { right: 16px; }
 
 .hud-hero-title {
   font-family: var(--font-serif);
@@ -282,6 +294,9 @@ img { max-width: 100%; display: block; }
   border-radius: 12px;
   box-shadow: 0 6px 20px -8px rgba(60, 40, 20, 0.1);
   position: relative; z-index: 1;
+  /* hud-hero が flex column のとき、アクティビティカードを底面に押し込む。
+     これでデスクトップ時の余白が消え、モバイル時は通常通り直下に来る。 */
+  margin-top: auto;
 }
 .hud-act-icon {
   width: 32px; height: 32px;
