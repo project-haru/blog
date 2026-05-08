@@ -279,9 +279,15 @@ img { max-width: 100%; display: block; }
 .hud-hero-lead {
   font-size: 14px; line-height: 1.75;
   color: var(--ink-faint);
-  margin: 0 0 18px;
-  max-width: 640px;
+  margin: 0 0 8px;       /* 3文を視覚的に1ブロックに保つため、inter-paragraph はやや詰める */
+  /* max-width はヒーローカードの内側幅(~860px)に対する制約。
+     旧値 640px はカード幅より明らかに狭く、テキストが早く折り返して
+     右側に空白を作っていた。ヒーロー本文は短い3文なので、カード幅に
+     委ねて自然折り返しさせる。長文を入れる用途が出てきたら再制約する。 */
   position: relative; z-index: 1;
+}
+.hud-hero-lead:last-of-type {
+  margin-bottom: 18px;   /* 最後だけはアクティビティカードまでの呼吸を確保 */
 }
 
 .hud-act-card {
