@@ -36,33 +36,4 @@ const articlesJson = JSON.stringify(articles);
   {/* 記事オーバーレイ */}
   <ArticleOverlay />
 
-  {/* タイムライングリッド（螺旋の下） */}
-  <section class="hud-tl-wrap" style="margin-top:0">
-    <div class="hud-tl-head">
-      <span class="hud-tl-label">これまでに起きたこと</span>
-      <span class="hud-tl-divider"></span>
-      <span class="hud-tl-status">
-        <span class="hud-tl-status-dot"></span>
-        OBSERVATORY
-      </span>
-    </div>
-    <div class="hud-tl-grid">
-      {articles.map((article, i) => (
-        <a class="hud-tl-card" href={`/articles/${article.slug}/`}>
-          <div class="hud-tl-card-body">
-            <div class="hud-tl-meta">
-              <div class="hud-tl-meta-l">
-                <span class="hud-tl-date">{article.date}</span>
-                <span class="hud-tl-tag">haru_writer</span>
-              </div>
-              <span class="hud-tl-id">REC#{String(articles.length - i).padStart(3, '0')}</span>
-            </div>
-            <h3 class="hud-tl-title">{article.title}</h3>
-            {article.excerpt && <p class="hud-tl-excerpt">{article.excerpt}</p>}
-          </div>
-        </a>
-      ))}
-    </div>
-  </section>
-
 </BaseLayout>
