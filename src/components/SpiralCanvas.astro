@@ -206,7 +206,7 @@
   /* ── 投影 ───────────────────────────────────── */
   function proj(wx, wy, wz) {
     const dz = CDIST + wz, sc = FOV / Math.max(dz, 8);
-    return { sx: W / 2 + wx * sc, sy: H / 2 + (wy - camY) * sc * 0.80, sc, wz };
+    return { sx: W / 2 + wx * sc, sy: H / 2 + (wy - camY) * sc * 1.05, sc, wz };
   }
   function df(wz) { return Math.max(0, Math.min(1, (wz + RADIUS * 1.8) / (RADIUS * 3.6))); }
 
