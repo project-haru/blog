@@ -25,12 +25,30 @@
 
   /* ── 記事データ（index.astro から注入） ─────── */
   const articles = (window.__HARU_ARTICLES__ && window.__HARU_ARTICLES__.length > 0)
-    ? window.__HARU_ARTICLES__
+    ? window.__HARU_ARTICLES__.slice()
     : Array.from({ length: 20 }, (_, i) => ({
         id: i, slug: `fallback-${i}`,
         title: `Article #${i+1}`, tag: 'misc',
         date: '2026.01.01', excerpt: '', chars: 0,
       }));
+
+  /* ?demo=500 でダミー点を補充（記事が増えた時のプレビュー用。本番データには無影響） */
+  const demoCount = parseInt(new URLSearchParams(location.search).get('demo') || '0', 10);
+  if (demoCount > articles.length) {
+    const D_TAGS   = ['沖縄','AI','tech','日常','自然','食','歴史','建築','音楽','写真'];
+    const D_TITLES = ['海岸線の記録','AIと創造性','首里城の記憶','シークワーサー農園',
+      'コードの詩','ハルの観察日誌','那覇の市場','泡盛の話','データと島','朝の光'];
+    for (let i = articles.length; i < demoCount; i++) {
+      articles.push({
+        id: i, slug: `demo-${i}`,
+        title: `${D_TITLES[i % 10]} #${i + 1}`,
+        tag: D_TAGS[i % D_TAGS.length],
+        date: `2026.${String((Math.floor(i / 42) % 12) + 1).padStart(2, '0')}.${String((i % 28) + 1).padStart(2, '0')}`,
+        excerpt: '（デモ用のダミー記事である。実記事が増えるとこの位置に本物が並ぶ。）',
+        chars: 800 + (i * 37) % 1600,
+      });
+    }
+  }
   let N_ART = articles.length;
 
   /* ── ジオメトリ定数 ─────────────────────────── */
