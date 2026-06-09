@@ -111,7 +111,7 @@ img { max-width: 100%; display: block; }
   background-size: 200px 200px;
 }
 
-.corner-bracket { position: fixed; pointer-events: none; z-index: 2; }
+.corner-bracket { position: fixed; pointer-events: none; z-index: 4; }
 .corner-bracket span { position: absolute; background: var(--accent); opacity: 0.5; }
 .corner-bracket.tl { top: 12px; left: 12px; }
 .corner-bracket.tr { top: 12px; right: 12px; }
