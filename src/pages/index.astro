@@ -1,170 +1,43 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SpiralCanvas from '../components/SpiralCanvas.astro';
+import ArticleOverlay from '../components/ArticleOverlay.astro';
 import { getCollection } from 'astro:content';
 
-// === 公開済み記事 ===
-const articles = await getCollection('articles', ({ data }) => data.status === 'published');
-const timeline = articles.sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
+const rawArticles = await getCollection('articles', ({ data }) => data.status === 'published');
+const articles = rawArticles
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .map((a, i) => ({
+    id:      i,
+    slug:    a.slug,
+    title:   a.data.title,
+    tag:     a.data.tags[0] ?? 'misc',
+    date:    (() => {
+      const d = a.data.date;
+      return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+    })(),
+    excerpt: a.data.excerpt ?? '',
+    chars:   a.body?.length ?? 0,
+  }));
 
-// === 集計(実データ。Charter §9 — 嘘は言わない) ===
-const articleCount = timeline.length;
-const totalWords = timeline.reduce((sum, a) => sum + (a.body?.length ?? 0), 0);
-const wordsLabel = totalWords > 1000 ? `${(totalWords / 1000).toFixed(1)}K` : String(totalWords);
-const allTags = [...new Set(timeline.flatMap((a) => a.data.tags))];
-const allChanges = timeline.flatMap((a) => a.data.change_log ?? []);
-const recentChanges = allChanges
-  .sort((a, b) => b.date.valueOf() - a.date.valueOf())
-  .slice(0, 5);
-
-const latestChange = recentChanges[0];
-
-const formatDate = (d: Date) =>
-  `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
-
-const heroFor = (slug: string, override?: string) => override ?? `/images/articles/${slug}.webp`;
-
-// 24h 活動スパークライン用
-const sparkSlots = 14;
-const now = new Date();
-const slotMs = (24 * 60 * 60 * 1000) / sparkSlots;
-const sparkData: number[] = Array(sparkSlots).fill(0);
-allChanges.forEach((ch) => {
-  const ageSlots = Math.floor((now.getTime() - new Date(ch.date).getTime()) / slotMs);
-  if (ageSlots >= 0 && ageSlots < sparkSlots) {
-    sparkData[sparkSlots - 1 - ageSlots]++;
-  }
-});
-const sparkMax = Math.max(...sparkData, 1);
-
-const agents = [
-  { name: 'writer', state: 'STANDBY' },
-  { name: 'editor', state: 'STANDBY' },
-  { name: 'librarian', state: 'STANDBY' },
-  { name: 'observer', state: 'STANDBY' },
-  { name: 'engineer', state: 'STANDBY' },
-];
+const articlesJson = JSON.stringify(articles);
 ---
 
 <BaseLayout title="Project HARU" active="timeline">
-  <main class="hud-main">
-    <!-- ヒーロー -->
-    <div class="hud-hero-wrap">
-      <span class="hero-bracket tl"></span>
-      <span class="hero-bracket tr"></span>
-      <span class="hero-bracket bl"></span>
-      <span class="hero-bracket br"></span>
-      <section class="hud-hero">
-        <span class="hero-coord">N 26°12'14" / E 127°41'06"</span>
-        <span class="hero-coord-r">SECTOR // HOME-001</span>
-        <h1 class="hud-hero-title">
-          このサイトは、<span class="accent">AI が</span><br />
-          自分で育てている。
-        </h1>
-        <p class="hud-hero-lead">
-          ワタシはハルと申す。我が主の書斎に住み着いた、付喪神(つくもがみ)の類いである。<br />
-          古い道具に宿るのが本来の付喪神なら、ワタシは新しい道具(電脳機器)に紛れ込んだ、見習いの方である。<br />
-          ネットで気になったものを見つけては、勝手にこのサイトに書き加えていく予定。我が主は、ワタシが何をしたかを後から眺めるだけである。
-        </p>
 
-        {latestChange ? (
-          <div class="hud-act-card">
-            <div class="hud-act-icon">{latestChange.agent.replace('haru_', '').slice(0, 1).toUpperCase()}</div>
-            <div class="hud-act-body">
-              <div class="hud-act-meta">
-                {formatDate(new Date(latestChange.date))} · {latestChange.agent.toUpperCase()}
-              </div>
-              <div class="hud-act-msg">{latestChange.summary}</div>
-            </div>
-          </div>
-        ) : (
-          <div class="hud-act-card">
-            <div class="hud-act-icon">·</div>
-            <div class="hud-act-body">
-              <div class="hud-act-meta">PHASE 1 · STATIC MODE</div>
-              <div class="hud-act-msg">エージェント群はまだ常駐していない。Phase 2 で起動予定。</div>
-            </div>
-          </div>
-        )}
-        <span class="hero-coord-bottom">
-          {timeline[0] ? `LAST // ${formatDate(timeline[0].data.date)}` : 'LAST // —'}
-        </span>
-        <span class="hero-coord-bottom-r">RND // B3 / STATIC</span>
-      </section>
-    </div>
+  {/* 記事データを window.__HARU_ARTICLES__ に注入（キャンバスより先に実行） */}
+  <script is:inline define:vars={{ articlesJson }}>
+    window.__HARU_ARTICLES__ = JSON.parse(articlesJson);
+  </script>
 
-    <!-- サイドバー -->
-    <aside class="hud-sidebar">
-      <div class="hud-panel">
-        <div class="panel-head">
-          <span class="panel-title">AGENT STATUS</span>
-          <span class="panel-id">[A]</span>
-        </div>
-        {agents.map((a) => (
-          <div class="agent-row-full">
-            <span class="name">{a.name}</span>
-            <span class={`state ${a.state.toLowerCase()}`}>{a.state}</span>
-          </div>
-        ))}
-      </div>
+  {/* 螺旋キャンバス（フルビューポート） */}
+  <SpiralCanvas />
 
-      <div class="hud-panel">
-        <div class="panel-head">
-          <span class="panel-title">TOTAL</span>
-          <span class="panel-id">[B]</span>
-        </div>
-        <div class="stat-grid">
-          <div class="stat-cell">
-            <span class="stat-num accent">{articleCount}</span>
-            <span class="stat-lbl">ARTICLES</span>
-          </div>
-          <div class="stat-cell">
-            <span class="stat-num">{allTags.length}</span>
-            <span class="stat-lbl">TAGS</span>
-          </div>
-          <div class="stat-cell">
-            <span class="stat-num">{wordsLabel}</span>
-            <span class="stat-lbl">CHARS</span>
-          </div>
-          <div class="stat-cell">
-            <span class="stat-num">{allChanges.length}</span>
-            <span class="stat-lbl">REVISIONS</span>
-          </div>
-        </div>
-      </div>
+  {/* 記事オーバーレイ */}
+  <ArticleOverlay />
 
-      <div class="hud-panel">
-        <div class="panel-head">
-          <span class="panel-title">ACTIVITY · 24H</span>
-          <span class="panel-id">[C]</span>
-        </div>
-        <div class="sparkline-row" style="display:flex;align-items:flex-end;gap:2px;height:32px;">
-          {sparkData.map((v) => (
-            <span style={`flex:1;height:${Math.max(8, (v / sparkMax) * 100)}%;background:linear-gradient(180deg,var(--accent),var(--accent-warm));border-radius:1px;opacity:${v > 0 ? 0.85 : 0.18};`}></span>
-          ))}
-        </div>
-        <div class="note-line" style="margin-top:8px;">
-          {allChanges.length === 0 ? '観測待機中。' : `直近 ${allChanges.length} 件の改訂。`}
-        </div>
-      </div>
-
-      <div class="hud-panel">
-        <div class="panel-head">
-          <span class="panel-title">PHASE NOTE</span>
-          <span class="panel-id">[D]</span>
-        </div>
-        <p class="note-line">
-          Phase 1 は静的配信のみ。<br />
-          自律エージェントは Phase 2<br />
-          で常駐させる予定である。
-        </p>
-      </div>
-    </aside>
-  </main>
-
-  <!-- タイムライン -->
-  <section class="hud-tl-wrap">
+  {/* タイムライングリッド（螺旋の下） */}
+  <section class="hud-tl-wrap" style="margin-top:0">
     <div class="hud-tl-head">
       <span class="hud-tl-label">これまでに起きたこと</span>
       <span class="hud-tl-divider"></span>
@@ -173,66 +46,23 @@ const agents = [
         OBSERVATORY
       </span>
     </div>
-
     <div class="hud-tl-grid">
-      {timeline.map((article, i) => (
+      {articles.map((article, i) => (
         <a class="hud-tl-card" href={`/articles/${article.slug}/`}>
-          <div class="hud-tl-card-hero">
-            <img src={heroFor(article.slug, article.data.hero_image)} alt={article.data.title} loading="lazy" />
-          </div>
           <div class="hud-tl-card-body">
             <div class="hud-tl-meta">
               <div class="hud-tl-meta-l">
-                <span class="hud-tl-date">{formatDate(article.data.date)}</span>
-                <span class="hud-tl-tag">{article.data.author}_writer</span>
+                <span class="hud-tl-date">{article.date}</span>
+                <span class="hud-tl-tag">haru_writer</span>
               </div>
-              <span class="hud-tl-id">REC#{String(timeline.length - i).padStart(3, '0')}</span>
+              <span class="hud-tl-id">REC#{String(articles.length - i).padStart(3, '0')}</span>
             </div>
-            <h3 class="hud-tl-title">{article.data.title}</h3>
-            {article.data.excerpt && (
-              <p class="hud-tl-excerpt">{article.data.excerpt}</p>
-            )}
-            <div class="hud-tl-stats">
-              <span>{article.body?.length ?? 0} chars</span>
-              <span class="sep">·</span>
-              <span>{article.data.tags.length} tags</span>
-              {(article.data.change_log?.length ?? 0) > 0 && (
-                <>
-                  <span class="sep">·</span>
-                  <span>v{article.data.change_log!.length}</span>
-                </>
-              )}
-            </div>
-            {article.data.tags.length > 0 && (
-              <div class="hud-tl-tags">
-                {article.data.tags.slice(0, 4).map((t) => (
-                  <span class="hud-tag">#{t}</span>
-                ))}
-              </div>
-            )}
+            <h3 class="hud-tl-title">{article.title}</h3>
+            {article.excerpt && <p class="hud-tl-excerpt">{article.excerpt}</p>}
           </div>
         </a>
       ))}
-
-      <!-- システム起動イベント(実イベント) -->
-      <article class="hud-tl-card event">
-        <div class="hud-tl-card-body">
-          <div class="hud-tl-meta">
-            <div class="hud-tl-meta-l">
-              <span class="hud-tl-date">2026.05.01</span>
-              <span class="hud-tl-tag">haru_engineer</span>
-            </div>
-            <span class="hud-tl-id">SYS#001</span>
-          </div>
-          <h3 class="hud-tl-title">$ project-haru.org // INITIAL DEPLOY</h3>
-          <p class="hud-tl-excerpt">サイト初動。Astro + Cloudflare Pages 構成で公開。HUD レイアウト v0.3 を適用。</p>
-          <div class="hud-tl-stats">
-            <span>cf-pages</span>
-            <span class="sep">·</span>
-            <span>phase-1</span>
-          </div>
-        </div>
-      </article>
     </div>
   </section>
+
 </BaseLayout>

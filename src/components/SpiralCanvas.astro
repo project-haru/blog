@@ -1,0 +1,289 @@
+---
+// SpiralCanvas.astro
+// props は Task 3 で追加する。まずは描画のみ。
+---
+
+<div id="spiral-root" style="position:relative;width:100%;height:100vh;overflow:hidden;background:#01020a;">
+  <canvas id="spiral-canvas" style="display:block;position:absolute;inset:0;width:100%;height:100%;"></canvas>
+</div>
+
+<script is:inline>
+(function () {
+  /* ── util ─────────────────────────────────────── */
+  const Rn = (a, b) => Math.random() * (b - a) + a;
+  const R2 = () => Math.random() * 2 - 1;
+  const TAU = Math.PI * 2;
+
+  /* ── 記事データ（index.astro から注入） ─────── */
+  const articles = (window.__HARU_ARTICLES__ && window.__HARU_ARTICLES__.length > 0)
+    ? window.__HARU_ARTICLES__
+    : Array.from({ length: 20 }, (_, i) => ({
+        id: i, slug: `fallback-${i}`,
+        title: `Article #${i+1}`, tag: 'misc',
+        date: '2026.01.01', excerpt: '', chars: 0,
+      }));
+  let N_ART = articles.length;
+
+  /* ── ジオメトリ定数 ─────────────────────────── */
+  const RADIUS = 260, A_STEP = 0.21, ROT_PX = 0.003, FOV = 600, CDIST = 380;
+  const SCROLL_H = () => H * 2;
+
+  /* ── タグ色 ─────────────────────────────────── */
+  const TC = {
+    '沖縄':[72,218,162],'AI':[175,95,255],'tech':[72,165,255],
+    '日常':[255,172,72],'自然':[95,215,115],'食':[255,112,112],
+    '歴史':[198,168,98],'建築':[145,198,218],'音楽':[255,125,195],'写真':[138,198,255]
+  };
+  const TAG_LIST = Object.values(TC);
+  function tc(tag) { return TC[tag] || [180, 180, 255]; }
+  function mixedColor() {
+    const b = TAG_LIST[Math.floor(Math.random() * TAG_LIST.length)];
+    const s = Rn(0.3, 0.65);
+    return b.map(c => Math.round(c * (1 - s) + 220 * s));
+  }
+
+  /* ── canvas セットアップ ────────────────────── */
+  const canvas = document.getElementById('spiral-canvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H;
+
+  /* ── 記事ポイント ───────────────────────────── */
+  let artPts = [];
+  function rebuildArt() {
+    const pitch = SCROLL_H() / (N_ART - 1 || 1);
+    artPts = articles.map((a, i) => ({
+      baseAngle: i * A_STEP,
+      baseY:     i * pitch,
+      nr: Rn(-30, 30), na: Rn(-0.15, 0.15),
+      baseSizeMult: Rn(0.5, 1.9),
+      ownRotSpeed: 0.00015 + Math.pow(Math.random(), 2.2) * 0.0016,
+      ownAngle: 0,
+      tp1: Rn(0, TAU), tf1: Rn(1.0, 3.5),
+      tp2: Rn(0, TAU), tf2: Rn(0.5, 1.8),
+      twinkleAmp: Rn(0.35, 0.75),
+      a, i,
+    }));
+  }
+
+  /* ── パーティクル ───────────────────────────── */
+  const N_WALL = 3000, N_INNER = 2000, N_STAR = 4000;
+  let wallPts = [], innerPts = [], starPts = [];
+  function rebuildParticles() {
+    const sh = SCROLL_H();
+    wallPts = Array.from({ length: N_WALL }, () => {
+      const angle = Rn(0, TAU), r = RADIUS * Rn(0.75, 1.12);
+      return { wx: r * Math.cos(angle), wy: Rn(-H * 0.5, sh + H * 0.5), wz: r * Math.sin(angle),
+        size: Rn(0.3, 1.1), alpha: Rn(0.08, 0.3), dy: R2() * 0.018, col: mixedColor(),
+        tp: Rn(0, TAU), tf: Rn(0.5, 2.2), ta: Rn(0.2, 0.55) };
+    });
+    innerPts = Array.from({ length: N_INNER }, () => {
+      const wz = Rn(-RADIUS * 0.9, RADIUS * 0.85), ang = Rn(0, TAU), r = Rn(0, RADIUS * 0.6);
+      return { wx: r * Math.cos(ang), wy: Rn(-H * 0.5, sh + H * 0.5), wz,
+        size: Rn(0.4, 1.8), alpha: Rn(0.1, 0.4), dx: R2() * 0.012, dy: R2() * 0.01, col: mixedColor(),
+        tp: Rn(0, TAU), tf: Rn(0.4, 1.8), ta: Rn(0.2, 0.5) };
+    });
+    starPts = Array.from({ length: N_STAR }, () => ({
+      wx: Rn(-W * 0.8, W * 0.8), wy: Rn(-H * 0.5, sh + H * 0.5), wz: Rn(-RADIUS * 1.8, -RADIUS * 0.5),
+      size: Rn(0.15, 0.55), alpha: Rn(0.03, 0.12), col: mixedColor(),
+      tp: Rn(0, TAU), tf: Rn(0.2, 0.7), ta: Rn(0.1, 0.3)
+    }));
+  }
+
+  function resize() {
+    W = canvas.offsetWidth;
+    H = canvas.offsetHeight;
+    canvas.width  = W * window.devicePixelRatio;
+    canvas.height = H * window.devicePixelRatio;
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    rebuildArt();
+    rebuildParticles();
+    if (camY === 0) {
+      // 記事の中央付近（または記事が少ない場合は最初の記事付近）を初期位置に
+      const midIdx = Math.floor(N_ART / 2);
+      camY = artPts[midIdx] ? artPts[midIdx].baseY : 0;
+      targetY = camY;
+    }
+  }
+
+  /* ── 状態 ───────────────────────────────────── */
+  let camY = 0, targetY = 0, t = 0, autoRot = 0, lastScrollTime = 0;
+  const IDLE_DELAY = 2200, AUTO_SPEED = 0.0004;
+  let hovIdx = -1, mx = -9999, my = -9999;
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  /* スクロールハンドラ */
+  document.getElementById('spiral-root').addEventListener('wheel', e => {
+    e.preventDefault();
+    targetY += e.deltaY * 2.4;
+    targetY = Math.max(-H * 0.3, Math.min(SCROLL_H() + H * 0.3, targetY));
+    lastScrollTime = performance.now();
+  }, { passive: false });
+
+  let lty = null;
+  canvas.addEventListener('touchstart', e => { lty = e.touches[0].clientY; });
+  canvas.addEventListener('touchmove',  e => {
+    if (lty !== null) {
+      targetY -= (e.touches[0].clientY - lty) * 3.2;
+      lty = e.touches[0].clientY;
+      lastScrollTime = performance.now();
+    }
+  });
+  canvas.addEventListener('touchend', () => { lty = null; });
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    mx = e.clientX - rect.left;
+    my = e.clientY - rect.top;
+    canvas.style.cursor = hovIdx >= 0 ? 'pointer' : 'default';
+  });
+
+  /* ── イージング ────────────────────────────── */
+  function easeIn(x)  { return x * x * x; }
+
+  /* ── クリックアニメーション状態 ─────────────── */
+  let clickAnim = null; // { idx, startMs }
+
+  canvas.addEventListener('click', () => {
+    if (hovIdx < 0 || clickAnim) return;
+    const a = articles[hovIdx];
+    clickAnim = { idx: hovIdx, startMs: performance.now() };
+
+    // 0.55秒後にオーバーレイを開く
+    setTimeout(() => {
+      if (typeof window.openArticleOverlay === 'function') {
+        window.openArticleOverlay(a);
+      }
+      clickAnim = null;
+    }, 550);
+  });
+
+  /* ── 投影 ───────────────────────────────────── */
+  function proj(wx, wy, wz) {
+    const dz = CDIST + wz, sc = FOV / Math.max(dz, 8);
+    return { sx: W / 2 + wx * sc, sy: H / 2 + (wy - camY) * sc * 0.80, sc, wz };
+  }
+  function df(wz) { return Math.max(0, Math.min(1, (wz + RADIUS * 1.8) / (RADIUS * 3.6))); }
+
+  function twinkle(p, d, time) {
+    const speed = 0.06 + Math.pow(d, 1.8) * 1.6;
+    const amp   = p.twinkleAmp * (0.08 + d * 0.92);
+    const v     = Math.sin(time * p.tf1 * speed + p.tp1) * Math.sin(time * p.tf2 * speed + p.tp2);
+    return 1 - amp * (1 - (v + 1) * 0.5);
+  }
+  function twinkleP(p, time) {
+    const v = Math.sin(time * p.tf + p.tp);
+    return 1 - p.ta * (1 - (v + 1) * 0.5);
+  }
+  function drawGlow(sx, sy, r, g, b, radius, alpha) {
+    if (alpha < 0.01 || radius < 0.5) return;
+    const gw = ctx.createRadialGradient(sx, sy, 0, sx, sy, radius);
+    gw.addColorStop(0,   `rgba(${r},${g},${b},${alpha})`);
+    gw.addColorStop(0.4, `rgba(${r},${g},${b},${alpha * 0.4})`);
+    gw.addColorStop(1,   `rgba(${r},${g},${b},0)`);
+    ctx.beginPath(); ctx.arc(sx, sy, radius, 0, TAU); ctx.fillStyle = gw; ctx.fill();
+  }
+  function dot(sx, sy, radius, col, a) {
+    if (a < 0.01 || radius < 0.1) return;
+    ctx.beginPath(); ctx.arc(sx, sy, radius, 0, TAU);
+    ctx.fillStyle = `rgba(${col[0]},${col[1]},${col[2]},${Math.min(a, 1)})`; ctx.fill();
+  }
+
+  /* ── アニメーションループ ────────────────────── */
+  function draw() {
+    camY += (targetY - camY) * 0.068;
+    t    += 0.008;
+    for (const p of artPts) p.ownAngle += p.ownRotSpeed;
+
+    const idle       = performance.now() - lastScrollTime;
+    const idleFactor = Math.max(0, Math.min(1, (idle - IDLE_DELAY) / 800));
+    autoRot += AUTO_SPEED * idleFactor;
+    const rotOff = camY * ROT_PX + autoRot;
+    const BLEED  = H * 1.5;
+
+    ctx.clearRect(0, 0, W, H);
+    const bg = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.85);
+    bg.addColorStop(0, 'rgba(8,10,32,.72)'); bg.addColorStop(1, 'rgba(1,2,10,0)');
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+    /* 遠景星屑 */
+    for (const p of starPts) {
+      const dy = p.wy - camY; if (dy < -BLEED || dy > BLEED) continue;
+      const { sx, sy } = proj(p.wx, p.wy, p.wz);
+      if (sx < -20 || sx > W + 20 || sy < -20 || sy > H + 20) continue;
+      dot(sx, sy, p.size, p.col, p.alpha * twinkleP(p, t));
+    }
+    /* 壁面 */
+    for (const p of wallPts) {
+      const wy = p.wy + p.dy * t * 45, dy = wy - camY; if (dy < -BLEED || dy > BLEED) continue;
+      const { sx, sy, wz } = proj(p.wx, wy, p.wz);
+      if (sx < -30 || sx > W + 30 || sy < -30 || sy > H + 30) continue;
+      const d = df(wz), tw = twinkleP(p, t);
+      dot(sx, sy, p.size * (0.3 + d * 0.9), p.col, p.alpha * (0.2 + d * 0.8) * tw);
+    }
+    /* 内部浮遊 */
+    const iSorted = [...innerPts].sort((a, b) => a.wz - b.wz);
+    for (const p of iSorted) {
+      const wy = p.wy + p.dy * t * 32, dy = wy - camY; if (dy < -BLEED || dy > BLEED) continue;
+      const wx = p.wx + p.dx * t * 28;
+      const { sx, sy, sc, wz } = proj(wx, wy, p.wz);
+      if (sx < -40 || sx > W + 40 || sy < -40 || sy > H + 40) continue;
+      const d = df(wz), tw = twinkleP(p, t);
+      const sz = p.size * (0.15 + d * 1.4) * Math.max(0.18, sc * 0.22);
+      const al = p.alpha * (0.1 + d * 0.88) * tw;
+      if (d > 0.6) drawGlow(sx, sy, p.col[0], p.col[1], p.col[2], sz * 3, al * 0.18 * d);
+      dot(sx, sy, Math.max(0.18, sz), p.col, Math.min(al, 0.78));
+    }
+
+    /* 記事ポイント */
+    const vis = [];
+    for (let i = 0; i < N_ART; i++) {
+      const p = artPts[i];
+      const angle = p.baseAngle + rotOff + p.na + p.ownAngle;
+      const r     = RADIUS + p.nr;
+      const wx = r * Math.cos(angle), wy = p.baseY, wz = r * Math.sin(angle);
+      if (wy - camY < -BLEED || wy - camY > BLEED) continue;
+      vis.push({ wx, wy, wz, i, p });
+    }
+    vis.sort((a, b) => a.wz - b.wz);
+
+    let cD = 28, nHov = -1;
+    vis.forEach(({ wx, wy, wz, i, p }) => {
+      const { sx, sy } = proj(wx, wy, wz);
+      const a = articles[i];
+      const [r, g, b] = tc(a.tag);
+      const d  = df(wz);
+      const tw = twinkle(p, d, t);
+      const coreSize  = (0.1 + Math.pow(d, 2.4) * 9.5) * p.baseSizeMult;
+      const coreAlpha = (0.05 + d * 0.90) * tw;
+      const isClicked = clickAnim && i === clickAnim.idx;
+      const isHov = i === hovIdx;
+      if (isClicked) {
+        const elapsed = Math.min((performance.now() - clickAnim.startMs) / 550, 1);
+        const zoom = 1 + easeIn(elapsed) * 18;
+        const fade = 1 - easeIn(elapsed) * 0.3;
+        drawGlow(sx, sy, r, g, b, coreSize * zoom * 6, 0.6 * fade);
+        drawGlow(sx, sy, r, g, b, coreSize * zoom * 2, 0.9 * fade);
+        dot(sx, sy, coreSize * zoom, [r, g, b], fade);
+      } else if (isHov) {
+        drawGlow(sx, sy, r, g, b, coreSize * 8, 0.5);
+        drawGlow(sx, sy, r, g, b, coreSize * 3, 0.7);
+        dot(sx, sy, coreSize * 2.2, [r, g, b], 1);
+      } else {
+        const glowR = coreSize * (2.5 + d * 4.0) * tw;
+        const glowA = d * d * 0.30 * tw;
+        if (glowA > 0.015) drawGlow(sx, sy, r, g, b, glowR, glowA);
+        dot(sx, sy, Math.max(0.3, coreSize), [r, g, b], coreAlpha);
+      }
+      if (wz > -60) {
+        const dd = Math.hypot(sx - mx, sy - my);
+        if (dd < cD) { cD = dd; nHov = i; }
+      }
+    });
+    hovIdx = nHov;
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
