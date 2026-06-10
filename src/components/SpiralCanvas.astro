@@ -98,14 +98,14 @@
   }
 
   /* ── パーティクル ───────────────────────────── */
-  const N_WALL = 3000, N_INNER = 2000, N_STAR = 4000;
+  const N_WALL = 4200, N_INNER = 2600, N_STAR = 7500;
   let wallPts = [], innerPts = [], starPts = [];
   function rebuildParticles() {
     const sh = SCROLL_H();
     wallPts = Array.from({ length: N_WALL }, () => {
       const angle = Rn(0, TAU), r = RADIUS * Rn(0.75, 1.12);
       return { wx: r * Math.cos(angle), wy: Rn(-H * 0.5, sh + H * 0.5), wz: r * Math.sin(angle),
-        size: Rn(0.3, 1.1), alpha: Rn(0.08, 0.3), dy: R2() * 0.018, col: mixedColor(),
+        size: Rn(0.35, 1.25), alpha: Rn(0.1, 0.38), dy: R2() * 0.018, col: mixedColor(),
         tp: Rn(0, TAU), tf: Rn(0.5, 2.2), ta: Rn(0.2, 0.55) };
     });
     innerPts = Array.from({ length: N_INNER }, () => {
@@ -116,7 +116,7 @@
     });
     starPts = Array.from({ length: N_STAR }, () => ({
       wx: Rn(-W * 0.8, W * 0.8), wy: Rn(-H * 0.5, sh + H * 0.5), wz: Rn(-RADIUS * 1.8, -RADIUS * 0.5),
-      size: Rn(0.15, 0.55), alpha: Rn(0.03, 0.12), col: mixedColor(),
+      size: Rn(0.2, 0.7), alpha: Rn(0.05, 0.2), col: mixedColor(),
       tp: Rn(0, TAU), tf: Rn(0.2, 0.7), ta: Rn(0.1, 0.3)
     }));
   }
