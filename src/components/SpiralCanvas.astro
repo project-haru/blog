@@ -243,7 +243,7 @@
 
   /* ── 起動エフェクト ──────────────────────────
    * 約2秒かけて、点群が外側から円柱に収束しつつフェードイン */
-  const BOOT_MS = 2000;
+  const BOOT_MS = 3200;
   const bootStart = performance.now();
   function easeOutC(x) { return 1 - Math.pow(1 - x, 3); }
   // ヒントは収束完了後にフェードイン
@@ -255,8 +255,8 @@
     t    += 0.008;
 
     const boot      = easeOutC(Math.min(1, (performance.now() - bootStart) / BOOT_MS));
-    const bootScale = 1 + 0.45 * (1 - boot);   // 1.45倍の外側から収束
-    ctx.globalAlpha = 0.04 + 0.96 * boot;       // フェードイン
+    const bootScale = 1 + 0.9 * (1 - boot);    // 1.9倍の外側から収束
+    ctx.globalAlpha = boot * boot;              // 完全な闇からゆっくり明るく
     for (const p of artPts) p.ownAngle += p.ownRotSpeed;
 
     const idle       = performance.now() - lastScrollTime;
