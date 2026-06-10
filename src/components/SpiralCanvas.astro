@@ -258,6 +258,21 @@
     ctx.beginPath(); ctx.arc(sx, sy, radius, 0, TAU);
     ctx.fillStyle = `rgba(${col[0]},${col[1]},${col[2]},${Math.min(a, 1)})`; ctx.fill();
   }
+  /* 恒星表現: 中心が白熱し、縁がタグ色に溶けて消えるソフトな球。
+   * ごく小さい点はグラデーションが見えないので通常の dot にフォールバック */
+  function softStar(sx, sy, col, radius, a) {
+    a = Math.min(a, 1);
+    if (a < 0.01 || radius < 0.3) return;
+    if (radius < 1.2) { dot(sx, sy, radius, col, a); return; }
+    const [r, g, b] = col;
+    const hr = Math.min(255, r + 100), hg = Math.min(255, g + 100), hb = Math.min(255, b + 100);
+    const gw = ctx.createRadialGradient(sx, sy, 0, sx, sy, radius);
+    gw.addColorStop(0,    `rgba(255,255,255,${a})`);
+    gw.addColorStop(0.18, `rgba(${hr},${hg},${hb},${a * 0.9})`);
+    gw.addColorStop(0.45, `rgba(${r},${g},${b},${a * 0.5})`);
+    gw.addColorStop(1,    `rgba(${r},${g},${b},0)`);
+    ctx.beginPath(); ctx.arc(sx, sy, radius, 0, TAU); ctx.fillStyle = gw; ctx.fill();
+  }
 
   /* ── 起動エフェクト ────────────────────────── */
   const BOOT_MS = 3200;
@@ -375,18 +390,18 @@
         const fade = 1 - easeIn(elapsed) * 0.3;
         drawGlow(sx, sy, r, g, b, coreSize * zoom * 6, 0.6 * fade);
         drawGlow(sx, sy, r, g, b, coreSize * zoom * 2, 0.9 * fade);
-        dot(sx, sy, coreSize * zoom, [r, g, b], fade);
+        softStar(sx, sy, [r, g, b], coreSize * zoom * 1.3, fade);
       } else if (isHov || isAmbient) {
         const pulse = isAmbient ? 0.85 + 0.15 * Math.sin(t * 5) : 1;
         drawGlow(sx, sy, r, g, b, coreSize * 8 * pulse, 0.5);
         drawGlow(sx, sy, r, g, b, coreSize * 3, 0.7);
-        dot(sx, sy, coreSize * 2.2, [r, g, b], 1);
+        softStar(sx, sy, [r, g, b], coreSize * 2.8, 1);
       } else {
         const artBoost = p.d.kind === 'article' ? 1.4 : 1;
         const glowR = coreSize * (2.5 + d * 4.0) * tw * artBoost;
         const glowA = d * d * 0.30 * tw * artBoost;
         if (glowA > 0.015) drawGlow(sx, sy, r, g, b, glowR, glowA);
-        dot(sx, sy, Math.max(0.3, coreSize), [r, g, b], coreAlpha);
+        softStar(sx, sy, [r, g, b], Math.max(0.3, coreSize * 1.7), coreAlpha);
       }
       if (wz > -60) {
         const dd = Math.hypot(sx - mx, sy - my);
