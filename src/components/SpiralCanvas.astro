@@ -9,7 +9,7 @@
   <div id="spiral-hint" style="
     position:absolute;bottom:56px;left:50%;transform:translateX(-50%);
     font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.3em;
-    color:rgba(160,176,240,.4);pointer-events:none;
+    color:rgba(160,176,240,.4);pointer-events:none;opacity:0;
     transition:opacity 1.2s ease;
   ">SCROLL // ARCHIVE</div>
 </div>
@@ -79,18 +79,22 @@
   let artPts = [];
   function rebuildArt() {
     const pitch = SCROLL_H() / (N_ART - 1 || 1);
-    artPts = articles.map((a, i) => ({
-      baseAngle: i * A_STEP,
-      baseY:     i * pitch,
-      nr: Rn(-30, 30), na: Rn(-0.15, 0.15),
-      baseSizeMult: Rn(0.85, 1.15),
-      ownRotSpeed: 0.00015 + Math.pow(Math.random(), 2.2) * 0.0016,
-      ownAngle: 0,
-      tp1: Rn(0, TAU), tf1: Rn(1.0, 3.5),
-      tp2: Rn(0, TAU), tf2: Rn(0.5, 1.8),
-      twinkleAmp: Rn(0.35, 0.75),
-      a, i,
-    }));
+    artPts = articles.map((a, i) => {
+      const ors = 0.00015 + Math.pow(Math.random(), 2.2) * 0.0016;
+      return {
+        baseAngle: i * A_STEP,
+        baseY:     i * pitch,
+        nr: Rn(-30, 30), na: Rn(-0.15, 0.15),
+        baseSizeMult: Rn(0.85, 1.15),
+        ownRotSpeed: ors,
+        // 数分間ドリフトした後の状態から始める（初期表示の整列感を消す）
+        ownAngle: ors * Rn(0, 30000),
+        tp1: Rn(0, TAU), tf1: Rn(1.0, 3.5),
+        tp2: Rn(0, TAU), tf2: Rn(0.5, 1.8),
+        twinkleAmp: Rn(0.35, 0.75),
+        a, i,
+      };
+    });
   }
 
   /* ── パーティクル ───────────────────────────── */
@@ -237,10 +241,22 @@
     ctx.fillStyle = `rgba(${col[0]},${col[1]},${col[2]},${Math.min(a, 1)})`; ctx.fill();
   }
 
+  /* ── 起動エフェクト ──────────────────────────
+   * 約2秒かけて、点群が外側から円柱に収束しつつフェードイン */
+  const BOOT_MS = 2000;
+  const bootStart = performance.now();
+  function easeOutC(x) { return 1 - Math.pow(1 - x, 3); }
+  // ヒントは収束完了後にフェードイン
+  setTimeout(() => { if (hintShown && hint) hint.style.opacity = '1'; }, BOOT_MS);
+
   /* ── アニメーションループ ────────────────────── */
   function draw() {
     camY += (targetY - camY) * 0.068;
     t    += 0.008;
+
+    const boot      = easeOutC(Math.min(1, (performance.now() - bootStart) / BOOT_MS));
+    const bootScale = 1 + 0.45 * (1 - boot);   // 1.45倍の外側から収束
+    ctx.globalAlpha = 0.04 + 0.96 * boot;       // フェードイン
     for (const p of artPts) p.ownAngle += p.ownRotSpeed;
 
     const idle       = performance.now() - lastScrollTime;
@@ -264,7 +280,7 @@
     /* 壁面 */
     for (const p of wallPts) {
       const wy = p.wy + p.dy * t * 45, dy = wy - camY; if (dy < -BLEED || dy > BLEED) continue;
-      const { sx, sy, wz } = proj(p.wx, wy, p.wz);
+      const { sx, sy, wz } = proj(p.wx * bootScale, wy, p.wz * bootScale);
       if (sx < -30 || sx > W + 30 || sy < -30 || sy > H + 30) continue;
       const d = df(wz), tw = twinkleP(p, t);
       dot(sx, sy, p.size * (0.3 + d * 0.9), p.col, p.alpha * (0.2 + d * 0.8) * tw);
@@ -274,7 +290,7 @@
     for (const p of iSorted) {
       const wy = p.wy + p.dy * t * 32, dy = wy - camY; if (dy < -BLEED || dy > BLEED) continue;
       const wx = p.wx + p.dx * t * 28;
-      const { sx, sy, sc, wz } = proj(wx, wy, p.wz);
+      const { sx, sy, sc, wz } = proj(wx * bootScale, wy, p.wz * bootScale);
       if (sx < -40 || sx > W + 40 || sy < -40 || sy > H + 40) continue;
       const d = df(wz), tw = twinkleP(p, t);
       const sz = p.size * (0.15 + d * 1.4) * Math.max(0.18, sc * 0.22);
@@ -288,7 +304,7 @@
     for (let i = 0; i < N_ART; i++) {
       const p = artPts[i];
       const angle = p.baseAngle + rotOff + p.na + p.ownAngle;
-      const r     = RADIUS + p.nr;
+      const r     = (RADIUS + p.nr) * bootScale;
       const wx = r * Math.cos(angle), wy = p.baseY, wz = r * Math.sin(angle);
       if (wy - camY < -BLEED || wy - camY > BLEED) continue;
       vis.push({ wx, wy, wz, i, p });
