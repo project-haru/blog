@@ -328,10 +328,9 @@
         if (ok) setTimeout(() => { ok.style.opacity = '1'; }, OK_DELAY);
       }, 200 + i * STEP);
     });
-    /* 退場演出: 文字が一字ずつ星屑になって宇宙へ昇っていく */
-    function disperse() {
-      const rows = lines.querySelectorAll(':scope > div');
-      rows.forEach(row => {
+    /* 行を一文字ずつの span に分解する（退場演出の共通下ごしらえ） */
+    function splitChars() {
+      lines.querySelectorAll(':scope > div').forEach(row => {
         const frag = document.createDocumentFragment();
         row.childNodes.forEach(node => {
           const color = node.nodeType === 1
@@ -340,16 +339,24 @@
           for (const ch of node.textContent) {
             const s = document.createElement('span');
             s.textContent = ch;
-            s.style.cssText = 'display:inline-block;white-space:pre;color:' + color +
-              ';transition:transform 1.2s ease-out, opacity 1.2s ease-out, filter 1.2s ease-out;';
+            s.style.cssText = 'display:inline-block;white-space:pre;color:' + color + ';';
             frag.appendChild(s);
           }
         });
         row.textContent = '';
         row.appendChild(frag);
       });
+      return lines.querySelectorAll('span');
+    }
+
+    /* 退場演出A: 文字が一字ずつ星屑になって宇宙へ昇っていく */
+    function disperse() {
+      const spans = splitChars();
+      spans.forEach(s => {
+        s.style.transition = 'transform 1.2s ease-out, opacity 1.2s ease-out, filter 1.2s ease-out';
+      });
       requestAnimationFrame(() => {
-        lines.querySelectorAll('span').forEach(s => {
+        spans.forEach(s => {
           const dx = (Math.random() * 2 - 1) * 100;
           const dy = -30 - Math.random() * 120;
           s.style.transitionDelay = (Math.random() * 0.4) + 's';
@@ -359,7 +366,46 @@
         });
       });
     }
-    setTimeout(disperse, 2400);
+
+    /* 退場演出B: 全文字が中央の一点へ吸い込まれ、閃光とともに宇宙が生まれる */
+    function bigbang() {
+      const rect = lines.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+      const spans = splitChars();
+      spans.forEach(s => {
+        s.style.transition =
+          'transform .75s cubic-bezier(.55,-.05,.85,.4), opacity .75s ease-in, filter .75s ease-in';
+      });
+      requestAnimationFrame(() => {
+        spans.forEach(s => {
+          const r = s.getBoundingClientRect();
+          const dx = cx - (r.left + r.width / 2);
+          const dy = cy - (r.top + r.height / 2);
+          s.style.transitionDelay = (Math.random() * 0.25) + 's';
+          s.style.transform = `translate(${dx}px, ${dy}px) scale(.12)`;
+          s.style.opacity = '0';
+          s.style.filter = 'blur(1px)';
+        });
+      });
+      // 吸い込み完了に合わせて閃光 → 拡散しながら消え、背後で宇宙が姿を現す
+      setTimeout(() => {
+        const f = document.createElement('div');
+        f.style.cssText =
+          `position:fixed;left:${cx}px;top:${cy}px;width:10px;height:10px;border-radius:50%;` +
+          'transform:translate(-50%,-50%) scale(1);pointer-events:none;z-index:3;' +
+          'background:radial-gradient(circle, rgba(255,255,255,.95) 0%, rgba(160,180,255,.5) 40%, rgba(100,130,255,0) 70%);' +
+          'transition:transform 1.0s ease-out, opacity 1.0s ease-out;';
+        seq.appendChild(f);
+        requestAnimationFrame(() => {
+          f.style.transform = 'translate(-50%,-50%) scale(48)';
+          f.style.opacity = '0';
+        });
+      }, 800);
+    }
+
+    /* デフォルトは星屑散逸。?exit=bang でビッグバン（比較用） */
+    const exitMode = new URLSearchParams(location.search).get('exit');
+    setTimeout(exitMode === 'bang' ? bigbang : disperse, 2400);
     setTimeout(() => { seq.remove(); }, 4300);
   })();
 
