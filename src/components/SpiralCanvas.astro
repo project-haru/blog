@@ -201,7 +201,15 @@
   let clickAnim = null; // 記事ズーム用 { idx, startMs }
 
   canvas.addEventListener('click', () => {
-    if (hovIdx < 0) return;
+    if (hovIdx < 0) {
+      // 空白クリック = ポップアップの外側クリック。開いていれば閉じる
+      const qs = window.__quotePopupState;
+      if (qs && qs.open && typeof window.closeQuotePopup === 'function') {
+        window.closeQuotePopup();
+        nextAmbientAt = performance.now() + Rn(12000, 25000);
+      }
+      return;
+    }
     const p = pts[hovIdx], d = points[hovIdx];
     if (d.kind === 'article') {
       if (clickAnim) return;
