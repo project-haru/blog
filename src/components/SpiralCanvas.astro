@@ -390,6 +390,13 @@
     });
     hovIdx = nHov;
 
+    /* ポップアップを対象の点に追従させる（点はゆっくり公転している） */
+    const pqs = window.__quotePopupState;
+    if (pqs && pqs.open && ambientIdx >= 0 && pts[ambientIdx] &&
+        typeof window.moveQuotePopup === 'function') {
+      window.moveQuotePopup(pts[ambientIdx]._sx, pts[ambientIdx]._sy);
+    }
+
     maybeAmbient(vis, boot);
 
     /* ビネット */

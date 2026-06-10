@@ -100,6 +100,14 @@
     if (auto) hideTimer = setTimeout(() => window.closeQuotePopup(), 15000);
   };
 
+  // 点の移動に追従（SpiralCanvas が毎フレーム呼ぶ。left/top は transition 対象外なので滑らか）
+  window.moveQuotePopup = function (x, y) {
+    if (!window.__quotePopupState.open) return;
+    const w = pop.offsetWidth, h = pop.offsetHeight;
+    pop.style.left = clamp(x + 18, 12, window.innerWidth  - w - 12) + 'px';
+    pop.style.top  = clamp(y - h / 2, 64, window.innerHeight - h - 56) + 'px';
+  };
+
   window.closeQuotePopup = function () {
     clearTimeout(hideTimer);
     pop.style.opacity = '0';
