@@ -1,0 +1,12 @@
+[
+  { "id": "q0001", "text": "想像力は知識よりも重要だ。知識には限りがあるが、想像力は世界を包み込む。", "original": "Imagination is more important than knowledge.", "person": "einstein", "tags": ["創造"], "confidence": "verified", "source": "Saturday Evening Post interview (1929)" },
+  { "id": "q0002", "text": "一度も失敗をしたことがない人は、新しいことに挑んだことがない人である。", "original": "A person who never made a mistake never tried anything new.", "person": "einstein", "tags": ["勇気"], "confidence": "attributed", "source": "" },
+  { "id": "q0003", "text": "のんきと見える人々も、心の底を叩いてみると、どこか悲しい音がする。", "original": "", "person": "soseki", "tags": ["生き方"], "confidence": "verified", "source": "『吾輩は猫である』(1905)" },
+  { "id": "q0004", "text": "人生で恐れるべきものは何もない。理解すべきものがあるだけだ。", "original": "Nothing in life is to be feared, it is only to be understood.", "person": "curie", "tags": ["知恵"], "confidence": "attributed", "source": "" },
+  { "id": "q0005", "text": "生き残るのは最も強い種でも最も賢い種でもなく、変化に最もよく適応した種である。", "original": "It is not the strongest of the species that survives...", "person": "darwin", "tags": ["知恵"], "confidence": "legend", "source": "ダーウィン自身の言葉ではなく後世の要約とされる" },
+  { "id": "q0006", "text": "未来を予測する最良の方法は、それを創ることだ。", "original": "The best way to predict the future is to create it.", "person": "lincoln", "tags": ["創造"], "confidence": "legend", "source": "リンカーンへの帰属は確認できない" },
+  { "id": "q0007", "text": "翼を持たずに生まれてきたのなら、翼を生やすためにどんなことでもしなさい。", "original": "If you were born without wings, do nothing to prevent them from growing.", "person": "chanel", "tags": ["勇気"], "confidence": "attributed", "source": "" },
+  { "id": "q0008", "text": "かけがえのない存在になりたいなら、人と同じであってはならない。", "original": "In order to be irreplaceable one must always be different.", "person": "chanel", "tags": ["自由"], "confidence": "verified", "source": "Marcel Haedrich, Coco Chanel: Her Life, Her Secrets (1971)" },
+  { "id": "q0009", "text": "天才とは1パーセントのひらめきと99パーセントの努力である。", "original": "Genius is one percent inspiration, ninety-nine percent perspiration.", "person": "einstein", "tags": ["努力"], "confidence": "legend", "source": "エジソンの言葉として有名（確認用サンプル: Task 6で正しい人物に修正）" },
+  { "id": "q0010", "text": "私は失敗したことがない。うまくいかない方法を1万通り見つけただけだ。", "original": "I have not failed. I've just found 10,000 ways that won't work.", "person": "lincoln", "tags": ["努力"], "confidence": "legend", "source": "エジソンの言葉として有名（確認用サンプル: Task 6で正しい人物に修正）" }
+]
