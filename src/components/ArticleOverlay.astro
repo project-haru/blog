@@ -61,7 +61,7 @@
 
   window.openArticleOverlay = function (article) {
     // データ注入
-    document.getElementById('ov-tag').textContent   = `#${article.tag} · REC#${String(article.id + 1).padStart(3,'0')}`;
+    document.getElementById('ov-tag').textContent   = `#${article.tag} · REC#${article.recNo ?? '—'}`;
     document.getElementById('ov-title').textContent = article.title;
     document.getElementById('ov-meta').innerHTML    =
       `<span>${article.date}</span><span>${article.chars ?? '—'} chars</span>`;

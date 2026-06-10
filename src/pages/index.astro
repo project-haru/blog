@@ -2,36 +2,64 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SpiralCanvas from '../components/SpiralCanvas.astro';
 import ArticleOverlay from '../components/ArticleOverlay.astro';
+import QuotePopup from '../components/QuotePopup.astro';
 import { getCollection } from 'astro:content';
+import quotesData from '../data/quotes.json';
+import personsData from '../data/persons.json';
+
+const personsById = new Map(personsData.map((p) => [p.id, p]));
+
+const quotePoints = quotesData.map((q) => ({
+  kind: 'quote',
+  id: q.id,
+  text: q.text,
+  original: q.original || '',
+  tags: q.tags,
+  confidence: q.confidence,
+  source: q.source || '',
+  personData: personsById.get(q.person) ?? { name: q.person, years: '', title: '', bio: '' },
+}));
 
 const rawArticles = await getCollection('articles', ({ data }) => data.status === 'published');
-const articles = rawArticles
+const articlePoints = rawArticles
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .map((a, i) => ({
-    id:      i,
-    slug:    a.slug,
-    title:   a.data.title,
-    tag:     a.data.tags[0] ?? 'misc',
-    date:    (() => {
+    kind: 'article',
+    id: `a${i}`,
+    recNo: String(rawArticles.length - i).padStart(3, '0'),
+    slug: a.slug,
+    title: a.data.title,
+    tag: a.data.tags[0] ?? 'misc',
+    date: (() => {
       const d = a.data.date;
-      return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+      return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
     })(),
     excerpt: a.data.excerpt ?? '',
-    chars:   a.body?.length ?? 0,
+    chars: a.body?.length ?? 0,
   }));
 
-const articlesJson = JSON.stringify(articles);
+// 記事点を名言の中へ等間隔に差し込む（同じ宇宙に混ぜる）
+const points: any[] = [...quotePoints];
+const step = Math.floor(points.length / (articlePoints.length + 1)) || 1;
+articlePoints.forEach((a, i) => {
+  points.splice(Math.min((i + 1) * step + i, points.length), 0, a);
+});
+
+const pointsJson = JSON.stringify(points);
 ---
 
 <BaseLayout title="Project HARU" active="timeline">
 
-  {/* 記事データを window.__HARU_ARTICLES__ に注入（キャンバスより先に実行） */}
-  <script is:inline define:vars={{ articlesJson }}>
-    window.__HARU_ARTICLES__ = JSON.parse(articlesJson);
+  {/* ポイントデータを注入（キャンバスより先に実行） */}
+  <script is:inline define:vars={{ pointsJson }}>
+    window.__HARU_POINTS__ = JSON.parse(pointsJson);
   </script>
 
-  {/* 螺旋キャンバス（フルビューポート） */}
+  {/* 螺旋キャンバス（フルビューポート固定） */}
   <SpiralCanvas />
+
+  {/* 名言ポップアップ */}
+  <QuotePopup />
 
   {/* 記事オーバーレイ */}
   <ArticleOverlay />
