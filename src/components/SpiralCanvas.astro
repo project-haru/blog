@@ -1,6 +1,6 @@
 ---
 // SpiralCanvas.astro
-// props は Task 3 で追加する。まずは描画のみ。
+// 名言＋記事のポイント宇宙。データは index.astro が window.__HARU_POINTS__ に注入する。
 ---
 
 <!-- 固定全画面レイヤー。HUD(z5)とタイムライン(z4)の下、グリッドオーバーレイ(z1-2)の上 -->
@@ -13,6 +13,7 @@
     transition:opacity 1.2s ease;
   ">SCROLL // ARCHIVE</div>
 </div>
+
 <script is:inline>
 (function () {
   /* ── util ─────────────────────────────────────── */
@@ -20,50 +21,48 @@
   const R2 = () => Math.random() * 2 - 1;
   const TAU = Math.PI * 2;
 
-  /* ── 記事データ（index.astro から注入） ─────── */
-  const articles = (window.__HARU_ARTICLES__ && window.__HARU_ARTICLES__.length > 0)
-    ? window.__HARU_ARTICLES__.slice()
+  /* ── ポイントデータ（index.astro から注入。quote/article 混在） ─ */
+  const points = (window.__HARU_POINTS__ && window.__HARU_POINTS__.length > 0)
+    ? window.__HARU_POINTS__.slice()
     : Array.from({ length: 20 }, (_, i) => ({
-        id: i, slug: `fallback-${i}`,
-        title: `Article #${i+1}`, tag: 'misc',
-        date: '2026.01.01', excerpt: '', chars: 0,
+        kind: 'quote', id: `fallback-${i}`,
+        text: 'データ未接続', tags: ['生き方'], confidence: 'legend',
+        personData: { name: '—', years: '', title: '', bio: '' },
       }));
 
-  /* ?demo=500 でダミー点を補充（記事が増えた時のプレビュー用。本番データには無影響） */
+  /* ?demo=N でダミー点を補充（プレビュー用。本番データには無影響） */
   const demoCount = parseInt(new URLSearchParams(location.search).get('demo') || '0', 10);
-  if (demoCount > articles.length) {
-    const D_TAGS   = ['沖縄','AI','tech','日常','自然','食','歴史','建築','音楽','写真'];
-    const D_TITLES = ['海岸線の記録','AIと創造性','首里城の記憶','シークワーサー農園',
-      'コードの詩','ハルの観察日誌','那覇の市場','泡盛の話','データと島','朝の光'];
-    for (let i = articles.length; i < demoCount; i++) {
-      articles.push({
-        id: i, slug: `demo-${i}`,
-        title: `${D_TITLES[i % 10]} #${i + 1}`,
-        tag: D_TAGS[i % D_TAGS.length],
-        date: `2026.${String((Math.floor(i / 42) % 12) + 1).padStart(2, '0')}.${String((i % 28) + 1).padStart(2, '0')}`,
-        excerpt: '（デモ用のダミー記事である。実記事が増えるとこの位置に本物が並ぶ。）',
-        chars: 800 + (i * 37) % 1600,
+  if (demoCount > points.length) {
+    const D_TAGS = ['創造','勇気','愛','努力','知恵','自由','希望','自然','ユーモア','生き方'];
+    for (let i = points.length; i < demoCount; i++) {
+      points.push({
+        kind: 'quote', id: `demo-${i}`,
+        text: `デモ名言 #${i + 1} — 実データが増えるとこの位置に本物が並ぶ。`,
+        tags: [D_TAGS[i % D_TAGS.length]], confidence: 'legend',
+        personData: { name: 'デモ人物', years: '----', title: '', bio: '' },
       });
     }
   }
-  let N_ART = articles.length;
+  const N_PTS = points.length;
 
   /* ── ジオメトリ定数 ─────────────────────────── */
   const RADIUS = 260, A_STEP = 0.21, ROT_PX = 0.003, FOV = 600, CDIST = 380;
   const SCROLL_H = () => H * 3;
-  /* カメラ可動域: 円柱の端から0.55画面分内側まで。
-   * 端まで行くと視界の半分が空（点なし）になるため、常に満たされる範囲に制限する */
   const CAM_MIN = () => Math.min(H * 0.55, SCROLL_H() / 2);
   const CAM_MAX = () => Math.max(SCROLL_H() - H * 0.55, SCROLL_H() / 2);
 
-  /* ── タグ色 ─────────────────────────────────── */
+  /* ── タグ色（名言系統） ───────────────────────── */
   const TC = {
-    '沖縄':[72,218,162],'AI':[175,95,255],'tech':[72,165,255],
-    '日常':[255,172,72],'自然':[95,215,115],'食':[255,112,112],
-    '歴史':[198,168,98],'建築':[145,198,218],'音楽':[255,125,195],'写真':[138,198,255]
+    '創造':[175,95,255],'勇気':[255,112,112],'愛':[255,125,195],
+    '努力':[255,172,72],'知恵':[72,165,255],'自由':[72,218,162],
+    '希望':[138,198,255],'自然':[95,215,115],'ユーモア':[255,210,90],'生き方':[198,168,98]
   };
+  const ARTICLE_COLOR = [228, 234, 255]; // 記事点 = 白い特別な星
   const TAG_LIST = Object.values(TC);
-  function tc(tag) { return TC[tag] || [180, 180, 255]; }
+  function pointColor(p) {
+    if (p.kind === 'article') return ARTICLE_COLOR;
+    return TC[(p.tags || [])[0]] || [180, 180, 255];
+  }
   function mixedColor() {
     const b = TAG_LIST[Math.floor(Math.random() * TAG_LIST.length)];
     const s = Rn(0.3, 0.65);
@@ -75,24 +74,25 @@
   const ctx    = canvas.getContext('2d');
   let W, H;
 
-  /* ── 記事ポイント ───────────────────────────── */
-  let artPts = [];
-  function rebuildArt() {
-    const pitch = SCROLL_H() / (N_ART - 1 || 1);
-    artPts = articles.map((a, i) => {
+  /* ── ポイント幾何 ───────────────────────────── */
+  let pts = [];
+  function rebuildPts() {
+    const pitch = SCROLL_H() / (N_PTS - 1 || 1);
+    pts = points.map((d, i) => {
       const ors = 0.00015 + Math.pow(Math.random(), 2.2) * 0.0016;
+      const isArt = d.kind === 'article';
       return {
         baseAngle: i * A_STEP,
         baseY:     i * pitch,
         nr: Rn(-30, 30), na: Rn(-0.15, 0.15),
-        baseSizeMult: Rn(0.85, 1.15),
+        baseSizeMult: isArt ? Rn(1.45, 1.75) : Rn(0.85, 1.15),
         ownRotSpeed: ors,
-        // 数分間ドリフトした後の状態から始める（初期表示の整列感を消す）
         ownAngle: ors * Rn(0, 30000),
         tp1: Rn(0, TAU), tf1: Rn(1.0, 3.5),
         tp2: Rn(0, TAU), tf2: Rn(0.5, 1.8),
-        twinkleAmp: Rn(0.35, 0.75),
-        a, i,
+        twinkleAmp: isArt ? Rn(0.2, 0.4) : Rn(0.35, 0.75),
+        _sx: -9999, _sy: -9999,
+        d, i,
       };
     });
   }
@@ -127,12 +127,11 @@
     canvas.width  = W * window.devicePixelRatio;
     canvas.height = H * window.devicePixelRatio;
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    rebuildArt();
+    rebuildPts();
     rebuildParticles();
     if (camY === 0) {
-      // 記事の中央付近を初期位置に（可動域内にクランプ）
-      const midIdx = Math.floor(N_ART / 2);
-      const mid = artPts[midIdx] ? artPts[midIdx].baseY : SCROLL_H() / 2;
+      const midIdx = Math.floor(N_PTS / 2);
+      const mid = pts[midIdx] ? pts[midIdx].baseY : SCROLL_H() / 2;
       camY = Math.max(CAM_MIN(), Math.min(CAM_MAX(), mid));
       targetY = camY;
     }
@@ -142,14 +141,21 @@
   let camY = 0, targetY = 0, t = 0, autoRot = 0, lastScrollTime = 0;
   const IDLE_DELAY = 2200, AUTO_SPEED = 0.0004;
   let hovIdx = -1, mx = -9999, my = -9999;
+  let ambientIdx = -1, nextAmbientAt = performance.now() + Rn(12000, 25000);
 
   resize();
   window.addEventListener('resize', resize);
 
-  /* スクロールハンドラ
-   * ページ最上部にいる間は wheel で螺旋カメラを動かす。
-   * 螺旋の下端まで来てさらに下スクロール → ページスクロールに引き渡し、
-   * タイムライングリッドへ降りられる。 */
+  function onUserInteract() {
+    lastScrollTime = performance.now();
+    const qs = window.__quotePopupState;
+    if (qs && qs.open && qs.auto && typeof window.closeQuotePopup === 'function') {
+      window.closeQuotePopup();
+    }
+    nextAmbientAt = performance.now() + Rn(12000, 25000);
+  }
+
+  /* スクロールハンドラ */
   const hint = document.getElementById('spiral-hint');
   let hintShown = true;
   function hideHint() {
@@ -163,11 +169,11 @@
     return !!ov && ov.getAttribute('aria-hidden') === 'false';
   }
   window.addEventListener('wheel', e => {
-    if (overlayIsOpen()) return;          // オーバーレイ内は通常スクロール
-    if (window.scrollY > 2) return;       // タイムライン閲覧中は通常スクロール
+    if (overlayIsOpen()) return;
+    if (window.scrollY > 2) return;
     e.preventDefault();
     targetY = Math.max(CAM_MIN(), Math.min(CAM_MAX(), targetY + e.deltaY * 2.4));
-    lastScrollTime = performance.now();
+    onUserInteract();
     hideHint();
   }, { passive: false });
 
@@ -178,7 +184,7 @@
       targetY -= (e.touches[0].clientY - lty) * 3.2;
       targetY = Math.max(CAM_MIN(), Math.min(CAM_MAX(), targetY));
       lty = e.touches[0].clientY;
-      lastScrollTime = performance.now();
+      onUserInteract();
       hideHint();
     }
   });
@@ -190,24 +196,27 @@
     canvas.style.cursor = hovIdx >= 0 ? 'pointer' : 'default';
   });
 
-  /* ── イージング ────────────────────────────── */
+  /* ── クリック: kind で分岐 ───────────────────── */
   function easeIn(x)  { return x * x * x; }
-
-  /* ── クリックアニメーション状態 ─────────────── */
-  let clickAnim = null; // { idx, startMs }
+  let clickAnim = null; // 記事ズーム用 { idx, startMs }
 
   canvas.addEventListener('click', () => {
-    if (hovIdx < 0 || clickAnim) return;
-    const a = articles[hovIdx];
-    clickAnim = { idx: hovIdx, startMs: performance.now() };
-
-    // 0.55秒後にオーバーレイを開く
-    setTimeout(() => {
-      if (typeof window.openArticleOverlay === 'function') {
-        window.openArticleOverlay(a);
+    if (hovIdx < 0) return;
+    const p = pts[hovIdx], d = points[hovIdx];
+    if (d.kind === 'article') {
+      if (clickAnim) return;
+      clickAnim = { idx: hovIdx, startMs: performance.now() };
+      setTimeout(() => {
+        if (typeof window.openArticleOverlay === 'function') window.openArticleOverlay(d);
+        clickAnim = null;
+      }, 550);
+    } else {
+      ambientIdx = hovIdx;
+      if (typeof window.openQuotePopup === 'function') {
+        window.openQuotePopup(d, p._sx, p._sy, { auto: false });
       }
-      clickAnim = null;
-    }, 550);
+    }
+    nextAmbientAt = performance.now() + Rn(12000, 25000);
   });
 
   /* ── 投影 ───────────────────────────────────── */
@@ -241,13 +250,35 @@
     ctx.fillStyle = `rgba(${col[0]},${col[1]},${col[2]},${Math.min(a, 1)})`; ctx.fill();
   }
 
-  /* ── 起動エフェクト ──────────────────────────
-   * 約2秒かけて、点群が外側から円柱に収束しつつフェードイン */
+  /* ── 起動エフェクト ────────────────────────── */
   const BOOT_MS = 3200;
   const bootStart = performance.now();
   function easeOutC(x) { return 1 - Math.pow(1 - x, 3); }
-  // ヒントは収束完了後にフェードイン
   setTimeout(() => { if (hintShown && hint) hint.style.opacity = '1'; }, BOOT_MS);
+
+  /* ── アンビエント表示 ─────────────────────────
+   * 放置中 12〜25 秒間隔で、手前の名言点を増光させてポップアップ */
+  function maybeAmbient(vis, boot) {
+    const qs = window.__quotePopupState;
+    if (qs && !qs.open) {
+      if (ambientIdx >= 0 && !clickAnim) ambientIdx = -1;
+    }
+    if (boot < 1) return;
+    if (qs && qs.open) return;
+    if (performance.now() < nextAmbientAt) return;
+    const cands = vis.filter(v =>
+      v.p.d.kind !== 'article' &&
+      df(v.wz) > 0.55 &&
+      v.p._sx > W * 0.15 && v.p._sx < W * 0.85 &&
+      v.p._sy > H * 0.2  && v.p._sy < H * 0.8
+    );
+    if (cands.length && typeof window.openQuotePopup === 'function') {
+      const c = cands[Math.floor(Math.random() * cands.length)];
+      ambientIdx = c.i;
+      window.openQuotePopup(points[c.i], c.p._sx, c.p._sy, { auto: true });
+    }
+    nextAmbientAt = performance.now() + Rn(12000, 25000);
+  }
 
   /* ── アニメーションループ ────────────────────── */
   function draw() {
@@ -255,9 +286,10 @@
     t    += 0.008;
 
     const boot      = easeOutC(Math.min(1, (performance.now() - bootStart) / BOOT_MS));
-    const bootScale = 1 + 0.9 * (1 - boot);    // 1.9倍の外側から収束
-    ctx.globalAlpha = boot * boot;              // 完全な闇からゆっくり明るく
-    for (const p of artPts) p.ownAngle += p.ownRotSpeed;
+    const bootScale = 1 + 0.9 * (1 - boot);
+    ctx.globalAlpha = boot * boot;
+
+    for (const p of pts) p.ownAngle += p.ownRotSpeed;
 
     const idle       = performance.now() - lastScrollTime;
     const idleFactor = Math.max(0, Math.min(1, (idle - IDLE_DELAY) / 800));
@@ -299,10 +331,10 @@
       dot(sx, sy, Math.max(0.18, sz), p.col, Math.min(al, 0.78));
     }
 
-    /* 記事ポイント */
+    /* ポイント（名言＋記事） */
     const vis = [];
-    for (let i = 0; i < N_ART; i++) {
-      const p = artPts[i];
+    for (let i = 0; i < N_PTS; i++) {
+      const p = pts[i];
       const angle = p.baseAngle + rotOff + p.na + p.ownAngle;
       const r     = (RADIUS + p.nr) * bootScale;
       const wx = r * Math.cos(angle), wy = p.baseY, wz = r * Math.sin(angle);
@@ -314,14 +346,15 @@
     let cD = 28, nHov = -1;
     vis.forEach(({ wx, wy, wz, i, p }) => {
       const { sx, sy } = proj(wx, wy, wz);
-      const a = articles[i];
-      const [r, g, b] = tc(a.tag);
+      p._sx = sx; p._sy = sy;
+      const [r, g, b] = pointColor(p.d);
       const d  = df(wz);
       const tw = twinkle(p, d, t);
       const coreSize  = (0.1 + Math.pow(d, 2.4) * 9.5) * p.baseSizeMult;
       const coreAlpha = (0.05 + d * 0.90) * tw;
       const isClicked = clickAnim && i === clickAnim.idx;
-      const isHov = i === hovIdx;
+      const isHov     = i === hovIdx;
+      const isAmbient = i === ambientIdx && !isClicked;
       if (isClicked) {
         const elapsed = Math.min((performance.now() - clickAnim.startMs) / 550, 1);
         const zoom = 1 + easeIn(elapsed) * 18;
@@ -329,13 +362,15 @@
         drawGlow(sx, sy, r, g, b, coreSize * zoom * 6, 0.6 * fade);
         drawGlow(sx, sy, r, g, b, coreSize * zoom * 2, 0.9 * fade);
         dot(sx, sy, coreSize * zoom, [r, g, b], fade);
-      } else if (isHov) {
-        drawGlow(sx, sy, r, g, b, coreSize * 8, 0.5);
+      } else if (isHov || isAmbient) {
+        const pulse = isAmbient ? 0.85 + 0.15 * Math.sin(t * 5) : 1;
+        drawGlow(sx, sy, r, g, b, coreSize * 8 * pulse, 0.5);
         drawGlow(sx, sy, r, g, b, coreSize * 3, 0.7);
         dot(sx, sy, coreSize * 2.2, [r, g, b], 1);
       } else {
-        const glowR = coreSize * (2.5 + d * 4.0) * tw;
-        const glowA = d * d * 0.30 * tw;
+        const artBoost = p.d.kind === 'article' ? 1.4 : 1;
+        const glowR = coreSize * (2.5 + d * 4.0) * tw * artBoost;
+        const glowA = d * d * 0.30 * tw * artBoost;
         if (glowA > 0.015) drawGlow(sx, sy, r, g, b, glowR, glowA);
         dot(sx, sy, Math.max(0.3, coreSize), [r, g, b], coreAlpha);
       }
@@ -346,7 +381,9 @@
     });
     hovIdx = nHov;
 
-    /* ビネット（周辺減光）— 視界の縁を落として中心への没入を強める */
+    maybeAmbient(vis, boot);
+
+    /* ビネット */
     const vg = ctx.createRadialGradient(
       W / 2, H / 2, Math.min(W, H) * 0.38,
       W / 2, H / 2, Math.max(W, H) * 0.78
