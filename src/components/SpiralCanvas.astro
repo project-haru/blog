@@ -5,7 +5,7 @@
 
 <!-- 固定全画面レイヤー。HUD(z5)とタイムライン(z4)の下、グリッドオーバーレイ(z1-2)の上 -->
 <div id="spiral-root" style="position:fixed;inset:0;overflow:hidden;background:#01020a;z-index:3;">
-  <canvas id="spiral-canvas" style="display:block;position:absolute;inset:0;width:100%;height:100%;"></canvas>
+  <canvas id="spiral-canvas" style="display:block;position:absolute;inset:0;width:100%;height:100%;touch-action:none;"></canvas>
   <div id="spiral-hint" style="
     position:absolute;bottom:56px;left:50%;transform:translateX(-50%);
     font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.3em;
@@ -180,6 +180,7 @@
   let lty = null;
   canvas.addEventListener('touchstart', e => { lty = e.touches[0].clientY; });
   canvas.addEventListener('touchmove',  e => {
+    e.preventDefault(); // ページスクロールとの競合を防ぐ
     if (lty !== null) {
       targetY -= (e.touches[0].clientY - lty) * 3.2;
       targetY = Math.max(CAM_MIN(), Math.min(CAM_MAX(), targetY));
