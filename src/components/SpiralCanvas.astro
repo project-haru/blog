@@ -50,7 +50,11 @@
 
   /* ── ジオメトリ定数 ─────────────────────────── */
   const RADIUS = 260, A_STEP = 0.21, ROT_PX = 0.003, FOV = 600, CDIST = 380;
-  const SCROLL_H = () => H * 2;
+  const SCROLL_H = () => H * 3;
+  /* カメラ可動域: 円柱の端から0.55画面分内側まで。
+   * 端まで行くと視界の半分が空（点なし）になるため、常に満たされる範囲に制限する */
+  const CAM_MIN = () => Math.min(H * 0.55, SCROLL_H() / 2);
+  const CAM_MAX = () => Math.max(SCROLL_H() - H * 0.55, SCROLL_H() / 2);
 
   /* ── タグ色 ─────────────────────────────────── */
   const TC = {
@@ -122,9 +126,10 @@
     rebuildArt();
     rebuildParticles();
     if (camY === 0) {
-      // 記事の中央付近（または記事が少ない場合は最初の記事付近）を初期位置に
+      // 記事の中央付近を初期位置に（可動域内にクランプ）
       const midIdx = Math.floor(N_ART / 2);
-      camY = artPts[midIdx] ? artPts[midIdx].baseY : 0;
+      const mid = artPts[midIdx] ? artPts[midIdx].baseY : SCROLL_H() / 2;
+      camY = Math.max(CAM_MIN(), Math.min(CAM_MAX(), mid));
       targetY = camY;
     }
   }
@@ -156,10 +161,8 @@
   window.addEventListener('wheel', e => {
     if (overlayIsOpen()) return;          // オーバーレイ内は通常スクロール
     if (window.scrollY > 2) return;       // タイムライン閲覧中は通常スクロール
-    const maxY = SCROLL_H() + H * 0.3;
-    if (e.deltaY > 0 && targetY >= maxY - 1) return; // 下端→ページへ引き渡し
     e.preventDefault();
-    targetY = Math.max(-H * 0.3, Math.min(maxY, targetY + e.deltaY * 2.4));
+    targetY = Math.max(CAM_MIN(), Math.min(CAM_MAX(), targetY + e.deltaY * 2.4));
     lastScrollTime = performance.now();
     hideHint();
   }, { passive: false });
@@ -169,7 +172,7 @@
   canvas.addEventListener('touchmove',  e => {
     if (lty !== null) {
       targetY -= (e.touches[0].clientY - lty) * 3.2;
-      targetY = Math.max(-H * 0.3, Math.min(SCROLL_H() + H * 0.3, targetY));
+      targetY = Math.max(CAM_MIN(), Math.min(CAM_MAX(), targetY));
       lty = e.touches[0].clientY;
       lastScrollTime = performance.now();
       hideHint();
