@@ -1,12 +1,2332 @@
 [
-  { "id": "q0001", "text": "想像力は知識よりも重要だ。知識には限りがあるが、想像力は世界を包み込む。", "original": "Imagination is more important than knowledge.", "person": "einstein", "tags": ["創造"], "confidence": "verified", "source": "Saturday Evening Post interview (1929)" },
-  { "id": "q0002", "text": "一度も失敗をしたことがない人は、新しいことに挑んだことがない人である。", "original": "A person who never made a mistake never tried anything new.", "person": "einstein", "tags": ["勇気"], "confidence": "attributed", "source": "" },
-  { "id": "q0003", "text": "のんきと見える人々も、心の底を叩いてみると、どこか悲しい音がする。", "original": "", "person": "soseki", "tags": ["生き方"], "confidence": "verified", "source": "『吾輩は猫である』(1905)" },
-  { "id": "q0004", "text": "人生で恐れるべきものは何もない。理解すべきものがあるだけだ。", "original": "Nothing in life is to be feared, it is only to be understood.", "person": "curie", "tags": ["知恵"], "confidence": "attributed", "source": "" },
-  { "id": "q0005", "text": "生き残るのは最も強い種でも最も賢い種でもなく、変化に最もよく適応した種である。", "original": "It is not the strongest of the species that survives...", "person": "darwin", "tags": ["知恵"], "confidence": "legend", "source": "ダーウィン自身の言葉ではなく後世の要約とされる" },
-  { "id": "q0006", "text": "未来を予測する最良の方法は、それを創ることだ。", "original": "The best way to predict the future is to create it.", "person": "lincoln", "tags": ["創造"], "confidence": "legend", "source": "リンカーンへの帰属は確認できない" },
-  { "id": "q0007", "text": "翼を持たずに生まれてきたのなら、翼を生やすためにどんなことでもしなさい。", "original": "If you were born without wings, do nothing to prevent them from growing.", "person": "chanel", "tags": ["勇気"], "confidence": "attributed", "source": "" },
-  { "id": "q0008", "text": "かけがえのない存在になりたいなら、人と同じであってはならない。", "original": "In order to be irreplaceable one must always be different.", "person": "chanel", "tags": ["自由"], "confidence": "verified", "source": "Marcel Haedrich, Coco Chanel: Her Life, Her Secrets (1971)" },
-  { "id": "q0009", "text": "天才とは1パーセントのひらめきと99パーセントの努力である。", "original": "Genius is one percent inspiration, ninety-nine percent perspiration.", "person": "einstein", "tags": ["努力"], "confidence": "legend", "source": "エジソンの言葉として有名（確認用サンプル: Task 6で正しい人物に修正）" },
-  { "id": "q0010", "text": "私は失敗したことがない。うまくいかない方法を1万通り見つけただけだ。", "original": "I have not failed. I've just found 10,000 ways that won't work.", "person": "lincoln", "tags": ["努力"], "confidence": "legend", "source": "エジソンの言葉として有名（確認用サンプル: Task 6で正しい人物に修正）" }
+  {
+    "id": "q0001",
+    "text": "のんきと見える人々も、心の底を叩いてみると、どこか悲しい音がする。",
+    "original": "",
+    "person": "soseki",
+    "tags": [
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "『吾輩は猫である』(1905)"
+  },
+  {
+    "id": "q0002",
+    "text": "あせってはいけません。ただ、牛のように、図々しく進んで行くのが大事です。",
+    "original": "",
+    "person": "soseki",
+    "tags": [
+      "努力"
+    ],
+    "confidence": "verified",
+    "source": "芥川龍之介・久米正雄宛書簡 (1916)"
+  },
+  {
+    "id": "q0003",
+    "text": "天は人の上に人を造らず、人の下に人を造らずと言えり。",
+    "original": "",
+    "person": "fukuzawa",
+    "tags": [
+      "自由"
+    ],
+    "confidence": "verified",
+    "source": "『学問のすゝめ』初編 (1872)"
+  },
+  {
+    "id": "q0004",
+    "text": "進まざる者は必ず退き、退かざる者は必ず進む。",
+    "original": "",
+    "person": "fukuzawa",
+    "tags": [
+      "努力"
+    ],
+    "confidence": "attributed",
+    "source": ""
+  },
+  {
+    "id": "q0005",
+    "text": "世界がぜんたい幸福にならないうちは個人の幸福はあり得ない。",
+    "original": "",
+    "person": "miyazawa",
+    "tags": [
+      "愛",
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "『農民芸術概論綱要』(1926)"
+  },
+  {
+    "id": "q0006",
+    "text": "雨にも負けず、風にも負けず、雪にも夏の暑さにも負けぬ丈夫なからだを持ち。",
+    "original": "",
+    "person": "miyazawa",
+    "tags": [
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "手帳に残された詩「雨ニモマケズ」(1931)"
+  },
+  {
+    "id": "q0007",
+    "text": "古人の跡を求めず、古人の求めたるところを求めよ。",
+    "original": "",
+    "person": "basho",
+    "tags": [
+      "創造",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『許六離別の詞』(1693)"
+  },
+  {
+    "id": "q0008",
+    "text": "月日は百代の過客にして、行きかふ年もまた旅人なり。",
+    "original": "",
+    "person": "basho",
+    "tags": [
+      "生き方",
+      "自然"
+    ],
+    "confidence": "verified",
+    "source": "『おくのほそ道』冒頭 (1702刊)"
+  },
+  {
+    "id": "q0009",
+    "text": "散る桜 残る桜も 散る桜。",
+    "original": "",
+    "person": "ryokan",
+    "tags": [
+      "自然",
+      "生き方"
+    ],
+    "confidence": "attributed",
+    "source": "良寛の辞世と伝えられる句"
+  },
+  {
+    "id": "q0010",
+    "text": "災難に逢う時節には災難に逢うがよく候。死ぬ時節には死ぬがよく候。これはこれ災難をのがるる妙法にて候。",
+    "original": "",
+    "person": "ryokan",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "三条大地震後の山田杜皐宛書簡 (1828)"
+  },
+  {
+    "id": "q0011",
+    "text": "その時その時を一生に一度の出会いと思って、誠を尽くしなさい。",
+    "original": "（一期一会）",
+    "person": "rikyu",
+    "tags": [
+      "生き方"
+    ],
+    "confidence": "attributed",
+    "source": "利休の茶の精神として井伊直弼『茶湯一会集』が定式化"
+  },
+  {
+    "id": "q0012",
+    "text": "稽古とは一より習い十を知り、十よりかえるもとのその一。",
+    "original": "",
+    "person": "rikyu",
+    "tags": [
+      "努力",
+      "知恵"
+    ],
+    "confidence": "attributed",
+    "source": "『利休道歌』"
+  },
+  {
+    "id": "q0013",
+    "text": "七十歳までに描いたものは取るに足らない。九十歳でさらに奥義を究め、百歳で神妙の域に達するだろう。",
+    "original": "",
+    "person": "hokusai",
+    "tags": [
+      "努力",
+      "創造"
+    ],
+    "confidence": "verified",
+    "source": "『富嶽百景』初編跋文 (1834) の大意"
+  },
+  {
+    "id": "q0014",
+    "text": "天が私にあと五年の命をくれたら、本物の絵描きになれただろうに。",
+    "original": "",
+    "person": "hokusai",
+    "tags": [
+      "創造"
+    ],
+    "confidence": "attributed",
+    "source": "臨終の言葉と伝えられる"
+  },
+  {
+    "id": "q0015",
+    "text": "めぐりあひて 見しやそれとも わかぬまに 雲がくれにし 夜半の月かな。",
+    "original": "",
+    "person": "murasaki",
+    "tags": [
+      "愛"
+    ],
+    "confidence": "verified",
+    "source": "『紫式部集』、百人一首57番"
+  },
+  {
+    "id": "q0016",
+    "text": "春はあけぼの。やうやう白くなりゆく山ぎは、すこしあかりて。",
+    "original": "",
+    "person": "seishonagon",
+    "tags": [
+      "自然"
+    ],
+    "confidence": "verified",
+    "source": "『枕草子』第一段 (1001頃)"
+  },
+  {
+    "id": "q0017",
+    "text": "やは肌のあつき血汐にふれも見でさびしからずや道を説く君。",
+    "original": "",
+    "person": "yosano",
+    "tags": [
+      "愛",
+      "勇気"
+    ],
+    "confidence": "verified",
+    "source": "歌集『みだれ髪』(1901)"
+  },
+  {
+    "id": "q0018",
+    "text": "劫初より作りいとなむ殿堂に われも黄金の釘一つ打つ。",
+    "original": "",
+    "person": "yosano",
+    "tags": [
+      "創造"
+    ],
+    "confidence": "verified",
+    "source": "歌集『常夏』(1908)"
+  },
+  {
+    "id": "q0019",
+    "text": "世の中に開けゆく道は必ずある。ただ目の前の闇に迷うばかりなり。",
+    "original": "",
+    "person": "ichiyo",
+    "tags": [
+      "希望"
+    ],
+    "confidence": "attributed",
+    "source": "日記の記述に基づくとされる"
+  },
+  {
+    "id": "q0020",
+    "text": "世の人は我を何とも言わば言え。我がなすことは我のみぞ知る。",
+    "original": "",
+    "person": "ryoma",
+    "tags": [
+      "自由",
+      "勇気"
+    ],
+    "confidence": "attributed",
+    "source": "龍馬の詠として広く伝わる"
+  },
+  {
+    "id": "q0021",
+    "text": "人の一生は重荷を負うて遠き道を行くがごとし。急ぐべからず。",
+    "original": "",
+    "person": "ieyasu",
+    "tags": [
+      "生き方",
+      "知恵"
+    ],
+    "confidence": "legend",
+    "source": "「東照公御遺訓」として伝わるが後世の作の可能性が高い"
+  },
+  {
+    "id": "q0022",
+    "text": "人は城、人は石垣、人は堀。情けは味方、仇は敵なり。",
+    "original": "",
+    "person": "shingen",
+    "tags": [
+      "知恵",
+      "愛"
+    ],
+    "confidence": "legend",
+    "source": "『甲陽軍鑑』由来の歌として伝わる"
+  },
+  {
+    "id": "q0023",
+    "text": "為せば成る、為さねば成らぬ何事も。成らぬは人の為さぬなりけり。",
+    "original": "",
+    "person": "yozan",
+    "tags": [
+      "努力",
+      "勇気"
+    ],
+    "confidence": "verified",
+    "source": "家臣に与えた歌 (1785頃)"
+  },
+  {
+    "id": "q0024",
+    "text": "遠くをはかる者は富み、近くをはかる者は貧す。",
+    "original": "",
+    "person": "sontoku",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『二宮翁夜話』"
+  },
+  {
+    "id": "q0025",
+    "text": "積小為大。小を積んで大と為す。",
+    "original": "",
+    "person": "sontoku",
+    "tags": [
+      "努力"
+    ],
+    "confidence": "verified",
+    "source": "報徳思想の中心語、『二宮翁夜話』ほか"
+  },
+  {
+    "id": "q0026",
+    "text": "柿くへば 鐘が鳴るなり 法隆寺。",
+    "original": "",
+    "person": "shiki",
+    "tags": [
+      "自然",
+      "ユーモア"
+    ],
+    "confidence": "verified",
+    "source": "『海南新聞』(1895)"
+  },
+  {
+    "id": "q0027",
+    "text": "悟りとはいかなる場合にも平気で死ぬることかと思っていたが、悟りとはいかなる場合にも平気で生きていることであった。",
+    "original": "",
+    "person": "shiki",
+    "tags": [
+      "生き方",
+      "勇気"
+    ],
+    "confidence": "verified",
+    "source": "『病牀六尺』(1902)"
+  },
+  {
+    "id": "q0028",
+    "text": "笑われて、笑われて、つよくなる。",
+    "original": "",
+    "person": "dazai",
+    "tags": [
+      "勇気"
+    ],
+    "confidence": "verified",
+    "source": "『HUMAN LOST』(1937)"
+  },
+  {
+    "id": "q0029",
+    "text": "幸福は一夜おくれて来る。",
+    "original": "",
+    "person": "dazai",
+    "tags": [
+      "希望"
+    ],
+    "confidence": "verified",
+    "source": "『女生徒』(1939)"
+  },
+  {
+    "id": "q0030",
+    "text": "人生を幸福にするためには、日常の些事を愛さなければならぬ。",
+    "original": "",
+    "person": "akutagawa",
+    "tags": [
+      "生き方",
+      "希望"
+    ],
+    "confidence": "verified",
+    "source": "『侏儒の言葉』(1923–27)"
+  },
+  {
+    "id": "q0031",
+    "text": "運命は性格の中にある。",
+    "original": "",
+    "person": "akutagawa",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『侏儒の言葉』(1923–27)"
+  },
+  {
+    "id": "q0032",
+    "text": "夢なき者に理想なし。理想なき者に計画なし。計画なき者に実行なし。実行なき者に成功なし。故に夢なき者に成功なし。",
+    "original": "",
+    "person": "shoin",
+    "tags": [
+      "希望",
+      "努力"
+    ],
+    "confidence": "legend",
+    "source": "松陰の言葉として広まるが原典は確認されていない"
+  },
+  {
+    "id": "q0033",
+    "text": "至誠にして動かざる者は、未だこれ有らざるなり。",
+    "original": "",
+    "person": "shoin",
+    "tags": [
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "孟子の言を松陰が座右の銘とした（『講孟余話』）"
+  },
+  {
+    "id": "q0034",
+    "text": "之を知る者は之を好む者に如かず。之を好む者は之を楽しむ者に如かず。",
+    "original": "知之者不如好之者、好之者不如樂之者",
+    "person": "confucius",
+    "tags": [
+      "知恵",
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "『論語』雍也第六"
+  },
+  {
+    "id": "q0035",
+    "text": "過ちて改めざる、是を過ちと謂う。",
+    "original": "過而不改、是謂過矣",
+    "person": "confucius",
+    "tags": [
+      "知恵",
+      "勇気"
+    ],
+    "confidence": "verified",
+    "source": "『論語』衛霊公第十五"
+  },
+  {
+    "id": "q0036",
+    "text": "学びて思わざれば則ち罔し。思いて学ばざれば則ち殆し。",
+    "original": "學而不思則罔、思而不學則殆",
+    "person": "confucius",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『論語』為政第二"
+  },
+  {
+    "id": "q0037",
+    "text": "最上の善は水のようなものだ。水はあらゆるものに恵みを与えながら、争わない。",
+    "original": "上善若水。水善利萬物而不爭",
+    "person": "laozi",
+    "tags": [
+      "知恵",
+      "自然"
+    ],
+    "confidence": "verified",
+    "source": "『道徳経』第八章"
+  },
+  {
+    "id": "q0038",
+    "text": "千里の道も、足もとの一歩から始まる。",
+    "original": "千里之行、始於足下",
+    "person": "laozi",
+    "tags": [
+      "努力"
+    ],
+    "confidence": "verified",
+    "source": "『道徳経』第六十四章"
+  },
+  {
+    "id": "q0039",
+    "text": "足るを知る者は富む。",
+    "original": "知足者富",
+    "person": "laozi",
+    "tags": [
+      "知恵",
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "『道徳経』第三十三章"
+  },
+  {
+    "id": "q0040",
+    "text": "いつか自分が蝶になった夢を見た。今の自分は、蝶が見ている夢なのかもしれない。",
+    "original": "（胡蝶の夢）",
+    "person": "zhuangzi",
+    "tags": [
+      "知恵",
+      "創造"
+    ],
+    "confidence": "verified",
+    "source": "『荘子』斉物論篇の大意"
+  },
+  {
+    "id": "q0041",
+    "text": "井の中の蛙には海を語れない。自分の住む場所に囚われているからだ。",
+    "original": "井蛙不可以語於海者、拘於虛也",
+    "person": "zhuangzi",
+    "tags": [
+      "知恵",
+      "自由"
+    ],
+    "confidence": "verified",
+    "source": "『荘子』秋水篇"
+  },
+  {
+    "id": "q0042",
+    "text": "天の与える試練は、その人を大きな役目に就かせる前触れである。まず心と体を苦しめ、成すことを乱すのだ。",
+    "original": "天將降大任於是人也、必先苦其心志",
+    "person": "mencius",
+    "tags": [
+      "勇気",
+      "希望"
+    ],
+    "confidence": "verified",
+    "source": "『孟子』告子下の大意"
+  },
+  {
+    "id": "q0043",
+    "text": "彼を知り己を知れば、百戦して殆うからず。",
+    "original": "知彼知己、百戰不殆",
+    "person": "sunzi",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『孫子』謀攻篇"
+  },
+  {
+    "id": "q0044",
+    "text": "戦わずして人の兵を屈するは、善の善なる者なり。",
+    "original": "不戰而屈人之兵、善之善者也",
+    "person": "sunzi",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『孫子』謀攻篇"
+  },
+  {
+    "id": "q0045",
+    "text": "天が私という才を生んだからには、必ず使い道があるはずだ。",
+    "original": "天生我材必有用",
+    "person": "libai",
+    "tags": [
+      "希望",
+      "自由"
+    ],
+    "confidence": "verified",
+    "source": "詩「将進酒」"
+  },
+  {
+    "id": "q0046",
+    "text": "国破れて山河あり、城春にして草木深し。",
+    "original": "國破山河在、城春草木深",
+    "person": "dufu",
+    "tags": [
+      "自然",
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "詩「春望」(757)"
+  },
+  {
+    "id": "q0047",
+    "text": "山中の賊を破るのは易しいが、心中の賊を破るのは難しい。",
+    "original": "破山中賊易、破心中賊難",
+    "person": "wangyangming",
+    "tags": [
+      "知恵",
+      "努力"
+    ],
+    "confidence": "verified",
+    "source": "書簡（1518頃）"
+  },
+  {
+    "id": "q0048",
+    "text": "知は行の始めであり、行は知の完成である。",
+    "original": "知者行之始、行者知之成",
+    "person": "wangyangming",
+    "tags": [
+      "知恵",
+      "努力"
+    ],
+    "confidence": "verified",
+    "source": "『伝習録』"
+  },
+  {
+    "id": "q0049",
+    "text": "自らを灯明とし、自らを拠り所とせよ。他を拠り所とするな。",
+    "original": "（自灯明・法灯明）",
+    "person": "buddha",
+    "tags": [
+      "自由",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『大般涅槃経』に伝わる最後の教えの大意"
+  },
+  {
+    "id": "q0050",
+    "text": "怨みは怨みによって鎮まらない。怨みを捨ててこそ鎮まる。これは永遠の真理である。",
+    "original": "",
+    "person": "buddha",
+    "tags": [
+      "愛",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『ダンマパダ（法句経）』第5偈の大意"
+  },
+  {
+    "id": "q0051",
+    "text": "明日死ぬかのように生きよ。永遠に生きるかのように学べ。",
+    "original": "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+    "person": "gandhi",
+    "tags": [
+      "生き方",
+      "知恵"
+    ],
+    "confidence": "legend",
+    "source": "ガンディーの言葉として広まるが原典は確認されていない"
+  },
+  {
+    "id": "q0052",
+    "text": "世界に変化を望むなら、まず自分自身がその変化になりなさい。",
+    "original": "Be the change that you wish to see in the world.",
+    "person": "gandhi",
+    "tags": [
+      "勇気",
+      "生き方"
+    ],
+    "confidence": "legend",
+    "source": "本人の発言の要約が独り歩きしたとされる"
+  },
+  {
+    "id": "q0053",
+    "text": "目には目をでは、世界中が盲目になるだけだ。",
+    "original": "An eye for an eye only ends up making the whole world blind.",
+    "person": "gandhi",
+    "tags": [
+      "愛",
+      "知恵"
+    ],
+    "confidence": "attributed",
+    "source": "ガンディー家の伝承として広く帰属される"
+  },
+  {
+    "id": "q0054",
+    "text": "眠りの中で夢を見た。喜びこそ奉仕だと。目覚めて知った。奉仕こそ喜びだと。",
+    "original": "I slept and dreamt that life was joy. I awoke and saw that life was service. I acted and behold, service was joy.",
+    "person": "tagore",
+    "tags": [
+      "愛",
+      "生き方"
+    ],
+    "confidence": "attributed",
+    "source": ""
+  },
+  {
+    "id": "q0055",
+    "text": "雲は私の人生に流れ込んできた。もはや雨を運ぶためでも嵐を招くためでもなく、夕暮れの空に彩りを添えるために。",
+    "original": "Clouds come floating into my life, no longer to carry rain or usher storm, but to add color to my sunset sky.",
+    "person": "tagore",
+    "tags": [
+      "希望",
+      "自然"
+    ],
+    "confidence": "verified",
+    "source": "Stray Birds (1916)"
+  },
+  {
+    "id": "q0056",
+    "text": "明日への一番の備えは、今日を精いっぱい生きることだ。",
+    "original": "",
+    "person": "kabir",
+    "tags": [
+      "生き方"
+    ],
+    "confidence": "attributed",
+    "source": "カビールの詩の伝承訳"
+  },
+  {
+    "id": "q0057",
+    "text": "あなたが探しているものも、あなたを探している。",
+    "original": "What you seek is seeking you.",
+    "person": "rumi",
+    "tags": [
+      "希望",
+      "愛"
+    ],
+    "confidence": "attributed",
+    "source": "英訳詩集を通じて広まった"
+  },
+  {
+    "id": "q0058",
+    "text": "傷はそこから光があなたに入ってくる場所だ。",
+    "original": "The wound is the place where the Light enters you.",
+    "person": "rumi",
+    "tags": [
+      "希望",
+      "勇気"
+    ],
+    "confidence": "attributed",
+    "source": "英訳詩集を通じて広まった"
+  },
+  {
+    "id": "q0059",
+    "text": "昨日の私は賢かったから、世界を変えたいと思った。今日の私は賢明だから、自分を変えようとしている。",
+    "original": "Yesterday I was clever, so I wanted to change the world. Today I am wise, so I am changing myself.",
+    "person": "rumi",
+    "tags": [
+      "知恵",
+      "生き方"
+    ],
+    "confidence": "legend",
+    "source": "ルーミーへの帰属は疑わしいとされる"
+  },
+  {
+    "id": "q0060",
+    "text": "動く指は書き続ける。書き終えれば、先へ進む。あなたの涙も知恵も、その一行を消すことはできない。",
+    "original": "The Moving Finger writes; and, having writ, moves on.",
+    "person": "khayyam",
+    "tags": [
+      "生き方",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『ルバイヤート』（フィッツジェラルド英訳 第51歌）"
+  },
+  {
+    "id": "q0061",
+    "text": "あなたの子どもは、あなたの子どもではない。生命そのものの娘であり息子である。",
+    "original": "Your children are not your children. They are the sons and daughters of Life's longing for itself.",
+    "person": "gibran",
+    "tags": [
+      "愛",
+      "自由"
+    ],
+    "confidence": "verified",
+    "source": "The Prophet (1923)"
+  },
+  {
+    "id": "q0062",
+    "text": "仕事とは、目に見える形にした愛である。",
+    "original": "Work is love made visible.",
+    "person": "gibran",
+    "tags": [
+      "努力",
+      "愛"
+    ],
+    "confidence": "verified",
+    "source": "The Prophet (1923)"
+  },
+  {
+    "id": "q0063",
+    "text": "私が知っているのは、自分が何も知らないということだけだ。",
+    "original": "（無知の知）",
+    "person": "socrates",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "attributed",
+    "source": "プラトン『ソクラテスの弁明』に基づく要約"
+  },
+  {
+    "id": "q0064",
+    "text": "吟味されない人生は、生きるに値しない。",
+    "original": "The unexamined life is not worth living.",
+    "person": "socrates",
+    "tags": [
+      "生き方",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "プラトン『ソクラテスの弁明』38a"
+  },
+  {
+    "id": "q0065",
+    "text": "親切にしなさい。あなたが出会う人は皆、厳しい戦いを戦っているのだから。",
+    "original": "Be kind, for everyone you meet is fighting a hard battle.",
+    "person": "plato",
+    "tags": [
+      "愛"
+    ],
+    "confidence": "legend",
+    "source": "プラトンへの帰属は誤りで、19世紀の作家イアン・マクラレンの言葉とされる"
+  },
+  {
+    "id": "q0066",
+    "text": "始まりは仕事全体の半分である。",
+    "original": "Well begun is half done.",
+    "person": "aristotle",
+    "tags": [
+      "努力"
+    ],
+    "confidence": "attributed",
+    "source": "『政治学』の言い回しに由来する慣用化"
+  },
+  {
+    "id": "q0067",
+    "text": "私たちは繰り返し行うことの積み重ねである。だから卓越とは行為ではなく習慣である。",
+    "original": "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
+    "person": "aristotle",
+    "tags": [
+      "努力",
+      "知恵"
+    ],
+    "confidence": "legend",
+    "source": "実際はウィル・デュラントによるアリストテレス解説文 (1926)"
+  },
+  {
+    "id": "q0068",
+    "text": "同じ川に二度入ることはできない。",
+    "original": "（万物流転）",
+    "person": "heraclitus",
+    "tags": [
+      "知恵",
+      "自然"
+    ],
+    "confidence": "verified",
+    "source": "断片（プラトン『クラテュロス』ほかに引用）"
+  },
+  {
+    "id": "q0069",
+    "text": "人を悩ますのは出来事そのものではなく、出来事についての考えである。",
+    "original": "",
+    "person": "epictetus",
+    "tags": [
+      "知恵",
+      "自由"
+    ],
+    "confidence": "verified",
+    "source": "『エンケイリディオン（提要）』第5章"
+  },
+  {
+    "id": "q0070",
+    "text": "自由への道はただ一つ。自分の力の及ばないものを軽んじることだ。",
+    "original": "",
+    "person": "epictetus",
+    "tags": [
+      "自由"
+    ],
+    "confidence": "verified",
+    "source": "『エンケイリディオン（提要）』第19章の大意"
+  },
+  {
+    "id": "q0071",
+    "text": "我々は人生が短いのではなく、多くを浪費しているのだ。",
+    "original": "",
+    "person": "seneca",
+    "tags": [
+      "生き方",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『人生の短さについて』第1章"
+  },
+  {
+    "id": "q0072",
+    "text": "運が良いとは、準備が機会に出会うことである。",
+    "original": "Luck is what happens when preparation meets opportunity.",
+    "person": "seneca",
+    "tags": [
+      "努力",
+      "希望"
+    ],
+    "confidence": "legend",
+    "source": "セネカへの帰属は確認できない"
+  },
+  {
+    "id": "q0073",
+    "text": "朝、目覚めたら考えよ。今日も息をして、考え、楽しみ、愛することができる。なんという特権だろう。",
+    "original": "",
+    "person": "aurelius",
+    "tags": [
+      "希望",
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "『自省録』第5巻ほかの大意"
+  },
+  {
+    "id": "q0074",
+    "text": "あなたの人生の幸福は、あなたの考えの質で決まる。",
+    "original": "",
+    "person": "aurelius",
+    "tags": [
+      "知恵",
+      "希望"
+    ],
+    "confidence": "verified",
+    "source": "『自省録』の大意として広く引用"
+  },
+  {
+    "id": "q0075",
+    "text": "障害が行動を進める。道を塞ぐものが道となる。",
+    "original": "",
+    "person": "aurelius",
+    "tags": [
+      "勇気",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『自省録』第5巻20"
+  },
+  {
+    "id": "q0076",
+    "text": "庭と書斎があれば、人に必要なものはすべて揃っている。",
+    "original": "Si hortum in bibliotheca habes, deerit nihil.",
+    "person": "cicero",
+    "tags": [
+      "生き方",
+      "ユーモア"
+    ],
+    "confidence": "verified",
+    "source": "ウァロ宛書簡（Ad Familiares 9.4）"
+  },
+  {
+    "id": "q0077",
+    "text": "感謝は最大の徳であるだけでなく、すべての徳の親である。",
+    "original": "",
+    "person": "cicero",
+    "tags": [
+      "愛",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『プランキウス弁護』の大意"
+  },
+  {
+    "id": "q0078",
+    "text": "十分に終わりのことを考えよ。まず最初に終わりを考慮せよ。",
+    "original": "",
+    "person": "davinci",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "手稿（アトランティコ手稿ほか）"
+  },
+  {
+    "id": "q0079",
+    "text": "単純さは究極の洗練である。",
+    "original": "Simplicity is the ultimate sophistication.",
+    "person": "davinci",
+    "tags": [
+      "創造",
+      "知恵"
+    ],
+    "confidence": "legend",
+    "source": "ダ・ヴィンチへの帰属は確認できない（20世紀の広告に由来か）"
+  },
+  {
+    "id": "q0080",
+    "text": "よく過ごした一日が幸せな眠りをもたらすように、よく生きた一生は幸せな死をもたらす。",
+    "original": "",
+    "person": "davinci",
+    "tags": [
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "手稿（トリヴルツィオ手稿）"
+  },
+  {
+    "id": "q0081",
+    "text": "大理石の中に天使を見た。だから彼が自由になるまで彫った。",
+    "original": "I saw the angel in the marble and carved until I set him free.",
+    "person": "michelangelo",
+    "tags": [
+      "創造"
+    ],
+    "confidence": "legend",
+    "source": "ミケランジェロの言葉として伝わるが原典は不明"
+  },
+  {
+    "id": "q0082",
+    "text": "私はまだ学んでいる。",
+    "original": "Ancora imparo.",
+    "person": "michelangelo",
+    "tags": [
+      "努力",
+      "知恵"
+    ],
+    "confidence": "legend",
+    "source": "87歳の言葉と伝わるが帰属は確認できない"
+  },
+  {
+    "id": "q0083",
+    "text": "この世は舞台、人はみな役者にすぎない。",
+    "original": "All the world's a stage, and all the men and women merely players.",
+    "person": "shakespeare",
+    "tags": [
+      "生き方",
+      "創造"
+    ],
+    "confidence": "verified",
+    "source": "『お気に召すまま』第2幕第7場"
+  },
+  {
+    "id": "q0084",
+    "text": "弱き者よ、汝の名は女なり——と言った男の方こそ、よほど弱かったのかもしれない。",
+    "original": "Frailty, thy name is woman.",
+    "person": "shakespeare",
+    "tags": [
+      "ユーモア"
+    ],
+    "confidence": "verified",
+    "source": "『ハムレット』第1幕第2場（前半）"
+  },
+  {
+    "id": "q0085",
+    "text": "輝くもの必ずしも金ならず。",
+    "original": "All that glisters is not gold.",
+    "person": "shakespeare",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『ヴェニスの商人』第2幕第7場"
+  },
+  {
+    "id": "q0086",
+    "text": "明日というのは、今日を懸命に生きた者にだけ訪れる別の一日だ。",
+    "original": "Until death, it is all life.",
+    "person": "cervantes",
+    "tags": [
+      "希望"
+    ],
+    "confidence": "attributed",
+    "source": "『ドン・キホーテ』に由来する言い回し"
+  },
+  {
+    "id": "q0087",
+    "text": "鳥に翼があるように、人には夢を見る力がある。狂気と呼ばれようと、見果てぬ夢を追え。",
+    "original": "",
+    "person": "cervantes",
+    "tags": [
+      "希望",
+      "勇気"
+    ],
+    "confidence": "attributed",
+    "source": "『ドン・キホーテ』の精神の要約として流布"
+  },
+  {
+    "id": "q0088",
+    "text": "世界で一番偉大なことは、自分自身でいられることを知っていることだ。",
+    "original": "La plus grande chose du monde, c'est de savoir être à soi.",
+    "person": "montaigne",
+    "tags": [
+      "自由",
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "『エセー』第1巻39章"
+  },
+  {
+    "id": "q0089",
+    "text": "私の人生は不幸でいっぱいだった——そのほとんどは実際には起こらなかったが。",
+    "original": "My life has been full of terrible misfortunes, most of which never happened.",
+    "person": "montaigne",
+    "tags": [
+      "ユーモア",
+      "知恵"
+    ],
+    "confidence": "legend",
+    "source": "モンテーニュ風の警句として流布、原文は特定されていない"
+  },
+  {
+    "id": "q0090",
+    "text": "人間は考える葦である。自然の中で最も弱い一本の葦にすぎない。だがそれは考える葦である。",
+    "original": "L'homme n'est qu'un roseau, le plus faible de la nature; mais c'est un roseau pensant.",
+    "person": "pascal",
+    "tags": [
+      "知恵",
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "『パンセ』断章347"
+  },
+  {
+    "id": "q0091",
+    "text": "人間の不幸はすべて、部屋に静かに座っていられないことから生じる。",
+    "original": "",
+    "person": "pascal",
+    "tags": [
+      "知恵",
+      "ユーモア"
+    ],
+    "confidence": "verified",
+    "source": "『パンセ』断章139"
+  },
+  {
+    "id": "q0092",
+    "text": "心には理性の知らない理(ことわり)がある。",
+    "original": "Le cœur a ses raisons que la raison ne connaît point.",
+    "person": "pascal",
+    "tags": [
+      "愛",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『パンセ』断章277"
+  },
+  {
+    "id": "q0093",
+    "text": "平和とは戦争がないことではない。心の強さから生まれる徳である。",
+    "original": "",
+    "person": "spinoza",
+    "tags": [
+      "知恵",
+      "自由"
+    ],
+    "confidence": "verified",
+    "source": "『国家論』第5章の大意"
+  },
+  {
+    "id": "q0094",
+    "text": "泣くな、怒るな、理解せよ。",
+    "original": "",
+    "person": "spinoza",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "attributed",
+    "source": "『エチカ』等の思想の要約として流布"
+  },
+  {
+    "id": "q0095",
+    "text": "人は努力する限り、迷うものだ。",
+    "original": "Es irrt der Mensch, solang er strebt.",
+    "person": "goethe",
+    "tags": [
+      "努力",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『ファウスト』第一部・天上の序曲"
+  },
+  {
+    "id": "q0096",
+    "text": "涙とともにパンを食べた者でなければ、人生の本当の味はわからない。",
+    "original": "Wer nie sein Brot mit Tränen aß...",
+    "person": "goethe",
+    "tags": [
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "『ヴィルヘルム・マイスターの修業時代』竪琴弾きの歌"
+  },
+  {
+    "id": "q0097",
+    "text": "今この瞬間にできること、夢見たことを始めよ。大胆さの中に、才能と力と魔法が宿る。",
+    "original": "Whatever you can do, or dream you can, begin it. Boldness has genius, power, and magic in it.",
+    "person": "goethe",
+    "tags": [
+      "勇気",
+      "創造"
+    ],
+    "confidence": "legend",
+    "source": "実際はジョン・アンスターの英訳脚色 (1835) で、ゲーテの原文にはない"
+  },
+  {
+    "id": "q0098",
+    "text": "あなたを殺さないものは、あなたをより強くする。",
+    "original": "Was mich nicht umbringt, macht mich stärker.",
+    "person": "nietzsche",
+    "tags": [
+      "勇気"
+    ],
+    "confidence": "verified",
+    "source": "『偶像の黄昏』箴言8 (1888)"
+  },
+  {
+    "id": "q0099",
+    "text": "なぜ生きるかを知っている者は、ほとんどあらゆる「どのように」にも耐えられる。",
+    "original": "Wer ein Warum zum Leben hat, erträgt fast jedes Wie.",
+    "person": "nietzsche",
+    "tags": [
+      "生き方",
+      "希望"
+    ],
+    "confidence": "verified",
+    "source": "『偶像の黄昏』箴言12 (1888)"
+  },
+  {
+    "id": "q0100",
+    "text": "踊る星を生み出すには、人は自らの内に混沌を抱えていなければならない。",
+    "original": "Man muss noch Chaos in sich haben, um einen tanzenden Stern gebären zu können.",
+    "person": "nietzsche",
+    "tags": [
+      "創造"
+    ],
+    "confidence": "verified",
+    "source": "『ツァラトゥストラはこう語った』序説5"
+  },
+  {
+    "id": "q0101",
+    "text": "内容のない思考は空虚であり、概念のない直観は盲目である。",
+    "original": "Gedanken ohne Inhalt sind leer, Anschauungen ohne Begriffe sind blind.",
+    "person": "kant",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『純粋理性批判』(1781)"
+  },
+  {
+    "id": "q0102",
+    "text": "我が上なる星空と、我が内なる道徳法則。考えるほどに、常に新たな感嘆と畏敬で心を満たすものが二つある。",
+    "original": "Der bestirnte Himmel über mir, und das moralische Gesetz in mir.",
+    "person": "kant",
+    "tags": [
+      "自然",
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "『実践理性批判』結語 (1788)"
+  },
+  {
+    "id": "q0103",
+    "text": "音楽は、あらゆる知恵と哲学よりも高い啓示である。",
+    "original": "Musik ist höhere Offenbarung als alle Weisheit und Philosophie.",
+    "person": "beethoven",
+    "tags": [
+      "創造"
+    ],
+    "confidence": "attributed",
+    "source": "ベッティーナ・フォン・アルニムの書簡記録に由来"
+  },
+  {
+    "id": "q0104",
+    "text": "運命の喉首を締め上げてやる。運命に屈服などするものか。",
+    "original": "Ich will dem Schicksal in den Rachen greifen.",
+    "person": "beethoven",
+    "tags": [
+      "勇気"
+    ],
+    "confidence": "verified",
+    "source": "ヴェーゲラー宛書簡 (1801)"
+  },
+  {
+    "id": "q0105",
+    "text": "高い知性も想像力も、その両方を合わせたものも、天才を作りはしない。愛、愛、愛。それが天才の魂だ。",
+    "original": "",
+    "person": "mozart",
+    "tags": [
+      "愛",
+      "創造"
+    ],
+    "confidence": "legend",
+    "source": "モーツァルトへの帰属は疑わしいとされる"
+  },
+  {
+    "id": "q0106",
+    "text": "夢を見るから、人生は輝く。",
+    "original": "",
+    "person": "mozart",
+    "tags": [
+      "希望"
+    ],
+    "confidence": "legend",
+    "source": "日本で広まった言葉で、原典は確認されていない"
+  },
+  {
+    "id": "q0107",
+    "text": "時間ほど雄弁な批評家はいない。",
+    "original": "",
+    "person": "chopin",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "attributed",
+    "source": "ショパンの言葉として伝わる"
+  },
+  {
+    "id": "q0108",
+    "text": "シンプルさこそ、最後に到達する境地だ。あらゆる困難を弾き終えたあと、芸術の冠として現れるのは単純さである。",
+    "original": "La simplicité est la réussite absolue.",
+    "person": "chopin",
+    "tags": [
+      "創造",
+      "知恵"
+    ],
+    "confidence": "attributed",
+    "source": "弟子の回想録に基づく"
+  },
+  {
+    "id": "q0109",
+    "text": "何かを上手くなりたければ、まずたくさん愛することだ。",
+    "original": "The best way to know God is to love many things.",
+    "person": "gogh",
+    "tags": [
+      "愛",
+      "創造"
+    ],
+    "confidence": "verified",
+    "source": "弟テオ宛書簡 (1880) の大意"
+  },
+  {
+    "id": "q0110",
+    "text": "偉大なことは、小さなことの積み重ねによって成し遂げられる。",
+    "original": "Great things are done by a series of small things brought together.",
+    "person": "gogh",
+    "tags": [
+      "努力"
+    ],
+    "confidence": "verified",
+    "source": "弟テオ宛書簡 (1882)"
+  },
+  {
+    "id": "q0111",
+    "text": "星を見ることは、いつも私に夢を見させる。",
+    "original": "Looking at the stars always makes me dream.",
+    "person": "gogh",
+    "tags": [
+      "希望",
+      "自然"
+    ],
+    "confidence": "verified",
+    "source": "弟テオ宛書簡 (1888)"
+  },
+  {
+    "id": "q0112",
+    "text": "私が花を描けるのは、花とともに生きてきたからだ。",
+    "original": "",
+    "person": "monet",
+    "tags": [
+      "自然",
+      "創造"
+    ],
+    "confidence": "attributed",
+    "source": "モネの言葉として伝わる"
+  },
+  {
+    "id": "q0113",
+    "text": "色彩は一日中私を悩ませ、喜ばせ、苦しませる。",
+    "original": "",
+    "person": "monet",
+    "tags": [
+      "創造"
+    ],
+    "confidence": "attributed",
+    "source": "晩年の発言として伝わる"
+  },
+  {
+    "id": "q0114",
+    "text": "幸福な家庭はどれも似ているが、不幸な家庭はそれぞれの形で不幸である。",
+    "original": "Все счастливые семьи похожи друг на друга, каждая несчастливая семья несчастлива по-своему.",
+    "person": "tolstoy",
+    "tags": [
+      "生き方",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『アンナ・カレーニナ』冒頭 (1877)"
+  },
+  {
+    "id": "q0115",
+    "text": "誰もが世界を変えたいと思う。だが、自分を変えようとは誰も思わない。",
+    "original": "Everyone thinks of changing the world, but no one thinks of changing himself.",
+    "person": "tolstoy",
+    "tags": [
+      "知恵",
+      "勇気"
+    ],
+    "confidence": "attributed",
+    "source": "晩年の文集の言い回しに由来するとされる"
+  },
+  {
+    "id": "q0116",
+    "text": "強い人々はいつも素朴である。",
+    "original": "",
+    "person": "tolstoy",
+    "tags": [
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "『戦争と平和』"
+  },
+  {
+    "id": "q0117",
+    "text": "美が世界を救う。",
+    "original": "Красота спасёт мир.",
+    "person": "dostoevsky",
+    "tags": [
+      "希望",
+      "創造"
+    ],
+    "confidence": "verified",
+    "source": "『白痴』(1869)"
+  },
+  {
+    "id": "q0118",
+    "text": "何よりも、自分自身に嘘をつくな。",
+    "original": "Главное, самому себе не лгите.",
+    "person": "dostoevsky",
+    "tags": [
+      "生き方",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『カラマーゾフの兄弟』(1880)"
+  },
+  {
+    "id": "q0119",
+    "text": "人間は、慣れることのできる存在である。私はそれが人間の一番よい定義だと思う。",
+    "original": "",
+    "person": "dostoevsky",
+    "tags": [
+      "知恵",
+      "ユーモア"
+    ],
+    "confidence": "verified",
+    "source": "『死の家の記録』(1862)"
+  },
+  {
+    "id": "q0120",
+    "text": "短さは才能の姉妹である。",
+    "original": "Краткость — сестра таланта.",
+    "person": "chekhov",
+    "tags": [
+      "創造",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "兄アレクサンドル宛書簡 (1889)"
+  },
+  {
+    "id": "q0121",
+    "text": "月が輝いていると語るな。割れたガラスに光るその一片を見せよ。",
+    "original": "",
+    "person": "chekhov",
+    "tags": [
+      "創造"
+    ],
+    "confidence": "legend",
+    "source": "チェーホフの創作指南の要約として流布（兄宛書簡の脚色）"
+  },
+  {
+    "id": "q0122",
+    "text": "海より壮大な眺めがある。それは空だ。空より壮大な眺めがある。それは人の心の内側だ。",
+    "original": "Il y a un spectacle plus grand que la mer, c'est le ciel; il y a un spectacle plus grand que le ciel, c'est l'intérieur de l'âme.",
+    "person": "hugo",
+    "tags": [
+      "希望",
+      "愛"
+    ],
+    "confidence": "verified",
+    "source": "『レ・ミゼラブル』(1862)"
+  },
+  {
+    "id": "q0123",
+    "text": "時が来たアイデアほど強いものはない。軍隊の侵入は防げても、思想の侵入は防げない。",
+    "original": "On résiste à l'invasion des armées; on ne résiste pas à l'invasion des idées.",
+    "person": "hugo",
+    "tags": [
+      "自由",
+      "創造"
+    ],
+    "confidence": "verified",
+    "source": "『ある犯罪の物語』(1877)"
+  },
+  {
+    "id": "q0124",
+    "text": "私たちは皆、どぶの中にいる。だがそこから星を見上げている者もいる。",
+    "original": "We are all in the gutter, but some of us are looking at the stars.",
+    "person": "wilde",
+    "tags": [
+      "希望"
+    ],
+    "confidence": "verified",
+    "source": "『ウィンダミア卿夫人の扇』第3幕 (1892)"
+  },
+  {
+    "id": "q0125",
+    "text": "自分らしくあれ。ほかの誰かの席はもう埋まっている。",
+    "original": "Be yourself; everyone else is already taken.",
+    "person": "wilde",
+    "tags": [
+      "自由",
+      "ユーモア"
+    ],
+    "confidence": "legend",
+    "source": "ワイルド風の警句として流布、原典は確認されていない"
+  },
+  {
+    "id": "q0126",
+    "text": "経験とは、誰もが自分の過ちにつける名前のことだ。",
+    "original": "Experience is simply the name we give our mistakes.",
+    "person": "wilde",
+    "tags": [
+      "ユーモア",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『ウィンダミア卿夫人の扇』(1892)"
+  },
+  {
+    "id": "q0127",
+    "text": "人生で大切なのは、大きな喜びではなく、小さな喜びをたくさん見つけることだ。",
+    "original": "",
+    "person": "austen",
+    "tags": [
+      "生き方",
+      "希望"
+    ],
+    "confidence": "attributed",
+    "source": "書簡の言い回しに由来するとされる"
+  },
+  {
+    "id": "q0128",
+    "text": "本の楽しみを知らない人は、どれほど退屈な時間に耐えていることでしょう。",
+    "original": "How much sooner one tires of any thing than of a book!",
+    "person": "austen",
+    "tags": [
+      "知恵",
+      "ユーモア"
+    ],
+    "confidence": "verified",
+    "source": "『高慢と偏見』(1813)"
+  },
+  {
+    "id": "q0129",
+    "text": "自分が書きたいものを書きなさい。それが他の誰かにとって大事かどうかは、誰にもわからないのだから。",
+    "original": "So long as you write what you wish to write, that is all that matters.",
+    "person": "woolf",
+    "tags": [
+      "創造",
+      "自由"
+    ],
+    "confidence": "verified",
+    "source": "『自分ひとりの部屋』(1929)"
+  },
+  {
+    "id": "q0130",
+    "text": "女性が小説を書こうと思うなら、お金と自分ひとりの部屋を持たねばならない。",
+    "original": "A woman must have money and a room of her own if she is to write fiction.",
+    "person": "woolf",
+    "tags": [
+      "自由",
+      "創造"
+    ],
+    "confidence": "verified",
+    "source": "『自分ひとりの部屋』(1929)"
+  },
+  {
+    "id": "q0131",
+    "text": "人生で恐れるべきものは何もない。理解すべきものがあるだけだ。今こそ、より多く理解し、より少なく恐れる時だ。",
+    "original": "Nothing in life is to be feared, it is only to be understood.",
+    "person": "curie",
+    "tags": [
+      "知恵",
+      "勇気"
+    ],
+    "confidence": "attributed",
+    "source": "晩年の言葉として伝わるが一次資料は不明"
+  },
+  {
+    "id": "q0132",
+    "text": "私は、科学に偉大な美があると思っている研究者の一人です。",
+    "original": "Je suis de ceux qui pensent que la science a une grande beauté.",
+    "person": "curie",
+    "tags": [
+      "創造",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "講演録 (1933)"
+  },
+  {
+    "id": "q0133",
+    "text": "私は成功や失敗で評価されたくない。自分の畑を耕したかどうかで評価されたい。",
+    "original": "",
+    "person": "nightingale",
+    "tags": [
+      "努力",
+      "生き方"
+    ],
+    "confidence": "attributed",
+    "source": "書簡の言い回しに由来するとされる"
+  },
+  {
+    "id": "q0134",
+    "text": "天使とは、美しい花をまき散らす者ではなく、苦しむ者のために戦う者のことだ。",
+    "original": "",
+    "person": "nightingale",
+    "tags": [
+      "愛",
+      "勇気"
+    ],
+    "confidence": "attributed",
+    "source": "ナイチンゲールの言葉として広く伝わる"
+  },
+  {
+    "id": "q0135",
+    "text": "幸運は、準備された心にのみ宿る。",
+    "original": "Dans les champs de l'observation, le hasard ne favorise que les esprits préparés.",
+    "person": "pasteur",
+    "tags": [
+      "努力",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "リール大学講演 (1854)"
+  },
+  {
+    "id": "q0136",
+    "text": "私の力は、ただ粘り強かったことにある。",
+    "original": "Ma seule force, c'est ma ténacité.",
+    "person": "pasteur",
+    "tags": [
+      "努力"
+    ],
+    "confidence": "attributed",
+    "source": "パスツールの言葉として伝わる"
+  },
+  {
+    "id": "q0137",
+    "text": "私が遠くを見ることができたのは、巨人の肩の上に立っていたからだ。",
+    "original": "If I have seen further it is by standing on the shoulders of Giants.",
+    "person": "newton",
+    "tags": [
+      "知恵",
+      "努力"
+    ],
+    "confidence": "verified",
+    "source": "ロバート・フック宛書簡 (1675)"
+  },
+  {
+    "id": "q0138",
+    "text": "私は浜辺で遊ぶ子どもにすぎない。真理の大海は、未発見のまま目の前に広がっている。",
+    "original": "...whilst the great ocean of truth lay all undiscovered before me.",
+    "person": "newton",
+    "tags": [
+      "知恵",
+      "自然"
+    ],
+    "confidence": "attributed",
+    "source": "晩年の述懐としてスペンス『逸話集』(1820) に記録"
+  },
+  {
+    "id": "q0139",
+    "text": "それでも地球は回っている。",
+    "original": "Eppur si muove.",
+    "person": "galileo",
+    "tags": [
+      "勇気",
+      "自由"
+    ],
+    "confidence": "legend",
+    "source": "裁判後につぶやいたと伝わるが後世の創作とされる"
+  },
+  {
+    "id": "q0140",
+    "text": "宇宙という書物は、数学の言葉で書かれている。",
+    "original": "",
+    "person": "galileo",
+    "tags": [
+      "自然",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『偽金鑑識官』(1623)"
+  },
+  {
+    "id": "q0141",
+    "text": "ロウソクの炎ひとつにも、宇宙のすべての法則が働いている。",
+    "original": "",
+    "person": "faraday",
+    "tags": [
+      "自然",
+      "創造"
+    ],
+    "confidence": "attributed",
+    "source": "講演『ロウソクの科学』(1861) の主旨"
+  },
+  {
+    "id": "q0142",
+    "text": "働き、終え、公表せよ。",
+    "original": "Work. Finish. Publish.",
+    "person": "faraday",
+    "tags": [
+      "努力"
+    ],
+    "confidence": "attributed",
+    "source": "若い研究者への助言として伝わる"
+  },
+  {
+    "id": "q0143",
+    "text": "無知は知識よりもしばしば自信を生む。",
+    "original": "Ignorance more frequently begets confidence than does knowledge.",
+    "person": "darwin",
+    "tags": [
+      "知恵",
+      "ユーモア"
+    ],
+    "confidence": "verified",
+    "source": "『人間の由来』序論 (1871)"
+  },
+  {
+    "id": "q0144",
+    "text": "1時間を無駄にして平気な人は、人生の価値をまだ見つけていない。",
+    "original": "A man who dares to waste one hour of time has not discovered the value of life.",
+    "person": "darwin",
+    "tags": [
+      "生き方",
+      "努力"
+    ],
+    "confidence": "verified",
+    "source": "妹スーザン宛書簡 (1836)"
+  },
+  {
+    "id": "q0145",
+    "text": "想像力は知識よりも重要だ。知識には限りがあるが、想像力は世界を包み込む。",
+    "original": "Imagination is more important than knowledge.",
+    "person": "einstein",
+    "tags": [
+      "創造"
+    ],
+    "confidence": "verified",
+    "source": "Saturday Evening Post インタビュー (1929)"
+  },
+  {
+    "id": "q0146",
+    "text": "一度も失敗をしたことがない人は、新しいことに挑んだことがない人である。",
+    "original": "A person who never made a mistake never tried anything new.",
+    "person": "einstein",
+    "tags": [
+      "勇気",
+      "努力"
+    ],
+    "confidence": "attributed",
+    "source": "アインシュタインの言葉として広く伝わる"
+  },
+  {
+    "id": "q0147",
+    "text": "人生には二つの生き方しかない。奇跡など何もないように生きるか、すべてが奇跡であるかのように生きるかだ。",
+    "original": "There are only two ways to live your life...",
+    "person": "einstein",
+    "tags": [
+      "生き方",
+      "希望"
+    ],
+    "confidence": "legend",
+    "source": "アインシュタインへの帰属は確認できない"
+  },
+  {
+    "id": "q0148",
+    "text": "翼を持たずに生まれてきたのなら、翼を生やすためにどんなことでもしなさい。",
+    "original": "If you were born without wings, do nothing to prevent them from growing.",
+    "person": "chanel",
+    "tags": [
+      "勇気",
+      "希望"
+    ],
+    "confidence": "attributed",
+    "source": "シャネルの言葉として広く伝わる"
+  },
+  {
+    "id": "q0149",
+    "text": "かけがえのない存在になりたいなら、人と同じであってはならない。",
+    "original": "In order to be irreplaceable one must always be different.",
+    "person": "chanel",
+    "tags": [
+      "自由",
+      "創造"
+    ],
+    "confidence": "verified",
+    "source": "Marcel Haedrich, Coco Chanel: Her Life, Her Secrets (1971)"
+  },
+  {
+    "id": "q0150",
+    "text": "20歳の顔は自然がくれたもの。50歳の顔はあなたの功績よ。",
+    "original": "Nature gives you the face you have at twenty; it is up to you to merit the face you have at fifty.",
+    "person": "chanel",
+    "tags": [
+      "生き方",
+      "ユーモア"
+    ],
+    "confidence": "attributed",
+    "source": "シャネルの言葉として広く伝わる"
+  },
+  {
+    "id": "q0151",
+    "text": "今日できることを明日に延ばすな。",
+    "original": "Never leave that till tomorrow which you can do today.",
+    "person": "franklin",
+    "tags": [
+      "努力"
+    ],
+    "confidence": "verified",
+    "source": "Poor Richard's Almanack (1742)"
+  },
+  {
+    "id": "q0152",
+    "text": "準備に失敗する者は、失敗する準備をしている。",
+    "original": "By failing to prepare, you are preparing to fail.",
+    "person": "franklin",
+    "tags": [
+      "知恵",
+      "努力"
+    ],
+    "confidence": "legend",
+    "source": "フランクリンへの帰属は確認できない"
+  },
+  {
+    "id": "q0153",
+    "text": "投資した知識ほど、よい利息を生むものはない。",
+    "original": "An investment in knowledge pays the best interest.",
+    "person": "franklin",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "attributed",
+    "source": "Poor Richard's Almanack 系の格言として流布"
+  },
+  {
+    "id": "q0154",
+    "text": "未来のいちばん良いところは、一日ずつしかやって来ないことだ。",
+    "original": "The best thing about the future is that it comes one day at a time.",
+    "person": "lincoln",
+    "tags": [
+      "希望",
+      "ユーモア"
+    ],
+    "confidence": "legend",
+    "source": "リンカーンへの帰属は確認できない"
+  },
+  {
+    "id": "q0155",
+    "text": "木を切るのに6時間もらえるなら、最初の4時間は斧を研ぐのに使う。",
+    "original": "Give me six hours to chop down a tree and I will spend the first four sharpening the axe.",
+    "person": "lincoln",
+    "tags": [
+      "知恵",
+      "努力"
+    ],
+    "confidence": "legend",
+    "source": "リンカーンへの帰属は確認できない"
+  },
+  {
+    "id": "q0156",
+    "text": "人民の、人民による、人民のための政治を、この地上から滅ぼしてはならない。",
+    "original": "government of the people, by the people, for the people, shall not perish from the earth.",
+    "person": "lincoln",
+    "tags": [
+      "自由"
+    ],
+    "confidence": "verified",
+    "source": "ゲティスバーグ演説 (1863)"
+  },
+  {
+    "id": "q0157",
+    "text": "あなた自身の考えを信じること、自分にとって真実であることは万人にとっても真実だと信じること——それが天才である。",
+    "original": "To believe your own thought, to believe that what is true for you in your private heart is true for all men, — that is genius.",
+    "person": "emerson",
+    "tags": [
+      "自由",
+      "創造"
+    ],
+    "confidence": "verified",
+    "source": "エッセイ「自己信頼」(1841)"
+  },
+  {
+    "id": "q0158",
+    "text": "道が導く場所へ行くな。道なき場所へ行き、跡を残せ。",
+    "original": "Do not go where the path may lead, go instead where there is no path and leave a trail.",
+    "person": "emerson",
+    "tags": [
+      "勇気",
+      "創造"
+    ],
+    "confidence": "legend",
+    "source": "エマーソンへの帰属は確認できない"
+  },
+  {
+    "id": "q0159",
+    "text": "熱意なしに偉大なことが成し遂げられたためしはない。",
+    "original": "Nothing great was ever achieved without enthusiasm.",
+    "person": "emerson",
+    "tags": [
+      "努力",
+      "希望"
+    ],
+    "confidence": "verified",
+    "source": "エッセイ「円」(1841)"
+  },
+  {
+    "id": "q0160",
+    "text": "私は森へ行った。じっくりと生きたかったからだ。人生の本質だけに向き合いたかったからだ。",
+    "original": "I went to the woods because I wished to live deliberately, to front only the essential facts of life.",
+    "person": "thoreau",
+    "tags": [
+      "自由",
+      "自然"
+    ],
+    "confidence": "verified",
+    "source": "『森の生活（ウォールデン）』(1854)"
+  },
+  {
+    "id": "q0161",
+    "text": "自信を持って夢の方向へ進みなさい。思い描いてきた人生を生きなさい。",
+    "original": "Go confidently in the direction of your dreams! Live the life you've imagined.",
+    "person": "thoreau",
+    "tags": [
+      "希望",
+      "勇気"
+    ],
+    "confidence": "attributed",
+    "source": "『森の生活』結論部の言い換えとして流布"
+  },
+  {
+    "id": "q0162",
+    "text": "忙しさだけでは足りない。蟻だって忙しい。何のために忙しいのかが問題だ。",
+    "original": "It is not enough to be busy. So are the ants. The question is: What are we busy about?",
+    "person": "thoreau",
+    "tags": [
+      "知恵",
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "ブレイク宛書簡 (1857)"
+  },
+  {
+    "id": "q0163",
+    "text": "今から20年後、あなたはやったことよりも、やらなかったことに失望する。",
+    "original": "Twenty years from now you will be more disappointed by the things you didn't do...",
+    "person": "twain",
+    "tags": [
+      "勇気",
+      "生き方"
+    ],
+    "confidence": "legend",
+    "source": "トウェインへの帰属は確認できない"
+  },
+  {
+    "id": "q0164",
+    "text": "前進する秘訣は、まず始めることだ。",
+    "original": "The secret of getting ahead is getting started.",
+    "person": "twain",
+    "tags": [
+      "努力"
+    ],
+    "confidence": "legend",
+    "source": "トウェインへの帰属は確認できない"
+  },
+  {
+    "id": "q0165",
+    "text": "禁煙なんて簡単だ。私は千回もやった。",
+    "original": "Giving up smoking is the easiest thing in the world. I know because I've done it thousands of times.",
+    "person": "twain",
+    "tags": [
+      "ユーモア"
+    ],
+    "confidence": "attributed",
+    "source": "トウェインのユーモアとして広く伝わる"
+  },
+  {
+    "id": "q0166",
+    "text": "真実は小説より奇なり。なぜなら小説は可能性に忠実でなければならないが、真実はその必要がないからだ。",
+    "original": "Truth is stranger than fiction, but it is because Fiction is obliged to stick to possibilities; Truth isn't.",
+    "person": "twain",
+    "tags": [
+      "ユーモア",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "Following the Equator (1897)"
+  },
+  {
+    "id": "q0167",
+    "text": "天才とは1パーセントのひらめきと99パーセントの汗である。",
+    "original": "Genius is one percent inspiration, ninety-nine percent perspiration.",
+    "person": "edison",
+    "tags": [
+      "努力"
+    ],
+    "confidence": "verified",
+    "source": "Harper's Monthly インタビュー (1932 ほか)"
+  },
+  {
+    "id": "q0168",
+    "text": "私は失敗したことがない。うまくいかない方法を1万通り見つけただけだ。",
+    "original": "I have not failed. I've just found 10,000 ways that won't work.",
+    "person": "edison",
+    "tags": [
+      "努力",
+      "希望"
+    ],
+    "confidence": "attributed",
+    "source": "発言の記録は複数あるが文言は揺れがある"
+  },
+  {
+    "id": "q0169",
+    "text": "我々の最大の弱点は諦めることにある。成功への最も確実な道は、いつももう一度だけ試してみることだ。",
+    "original": "Our greatest weakness lies in giving up.",
+    "person": "edison",
+    "tags": [
+      "努力",
+      "勇気"
+    ],
+    "confidence": "legend",
+    "source": "エジソンへの帰属は確認できない"
+  },
+  {
+    "id": "q0170",
+    "text": "世界で最も美しいものは、見ることも触れることもできない。心で感じるものだ。",
+    "original": "The best and most beautiful things in the world cannot be seen or even touched - they must be felt with the heart.",
+    "person": "keller",
+    "tags": [
+      "愛",
+      "希望"
+    ],
+    "confidence": "verified",
+    "source": "The Story of My Life (1903) ほか"
+  },
+  {
+    "id": "q0171",
+    "text": "顔を太陽に向けていなさい。そうすれば影は見えない。",
+    "original": "Keep your face to the sunshine and you cannot see a shadow.",
+    "person": "keller",
+    "tags": [
+      "希望"
+    ],
+    "confidence": "attributed",
+    "source": "ケラーの言葉として広く伝わる"
+  },
+  {
+    "id": "q0172",
+    "text": "一つの幸福の扉が閉じるとき、別の扉が開く。だが私たちは閉じた扉ばかり見つめて、開いた扉に気づかない。",
+    "original": "When one door of happiness closes, another opens.",
+    "person": "keller",
+    "tags": [
+      "希望",
+      "知恵"
+    ],
+    "confidence": "attributed",
+    "source": "We Bereaved (1929) の言い回しに由来"
+  },
+  {
+    "id": "q0173",
+    "text": "誰もあなたの同意なしに、あなたに劣等感を抱かせることはできない。",
+    "original": "No one can make you feel inferior without your consent.",
+    "person": "eroosevelt",
+    "tags": [
+      "自由",
+      "勇気"
+    ],
+    "confidence": "attributed",
+    "source": "This Is My Story (1937) の言い回しに由来"
+  },
+  {
+    "id": "q0174",
+    "text": "未来は、自分の夢の美しさを信じる人のものである。",
+    "original": "The future belongs to those who believe in the beauty of their dreams.",
+    "person": "eroosevelt",
+    "tags": [
+      "希望"
+    ],
+    "confidence": "legend",
+    "source": "E・ルーズベルトへの帰属は確認できない"
+  },
+  {
+    "id": "q0175",
+    "text": "毎日、自分が恐れることを一つしなさい。",
+    "original": "Do one thing every day that scares you.",
+    "person": "eroosevelt",
+    "tags": [
+      "勇気"
+    ],
+    "confidence": "legend",
+    "source": "実際はメアリー・シュミックのコラム (1997) に由来"
+  },
+  {
+    "id": "q0176",
+    "text": "井戸の水を飲むとき、井戸を掘った人を忘れるな。",
+    "original": "吃水不忘掘井人",
+    "person": "confucius",
+    "tags": [
+      "愛",
+      "知恵"
+    ],
+    "confidence": "legend",
+    "source": "中国の諺で、孔子の言葉ではない"
+  },
+  {
+    "id": "q0177",
+    "text": "止まりさえしなければ、どんなにゆっくりでも進めばよい。",
+    "original": "It does not matter how slowly you go as long as you do not stop.",
+    "person": "confucius",
+    "tags": [
+      "努力",
+      "希望"
+    ],
+    "confidence": "legend",
+    "source": "『論語』の「譬如為山」などの大意が英語圏で格言化したもの"
+  },
+  {
+    "id": "q0178",
+    "text": "三人で歩けば、必ずわが師がいる。",
+    "original": "三人行、必有我師焉",
+    "person": "confucius",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『論語』述而第七"
+  },
+  {
+    "id": "q0179",
+    "text": "己の欲せざる所、人に施すこと勿れ。",
+    "original": "己所不欲、勿施於人",
+    "person": "confucius",
+    "tags": [
+      "愛",
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "『論語』顔淵第十二"
+  },
+  {
+    "id": "q0180",
+    "text": "本当の自分を知ることは、すべての知恵の始まりである。",
+    "original": "Knowing yourself is the beginning of all wisdom.",
+    "person": "aristotle",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "legend",
+    "source": "アリストテレスへの帰属は確認できない"
+  },
+  {
+    "id": "q0181",
+    "text": "希望とは、目覚めている者が見る夢である。",
+    "original": "Hope is a waking dream.",
+    "person": "aristotle",
+    "tags": [
+      "希望"
+    ],
+    "confidence": "verified",
+    "source": "ディオゲネス・ラエルティオス『ギリシア哲学者列伝』第5巻"
+  },
+  {
+    "id": "q0182",
+    "text": "友とは、二つの身体に宿る一つの魂である。",
+    "original": "A single soul dwelling in two bodies.",
+    "person": "aristotle",
+    "tags": [
+      "愛"
+    ],
+    "confidence": "verified",
+    "source": "ディオゲネス・ラエルティオス『ギリシア哲学者列伝』第5巻"
+  },
+  {
+    "id": "q0183",
+    "text": "結婚しなさい。良い妻を得れば幸福になれる。悪い妻を得れば哲学者になれる。",
+    "original": "By all means, marry.",
+    "person": "socrates",
+    "tags": [
+      "ユーモア"
+    ],
+    "confidence": "legend",
+    "source": "ソクラテスの逸話として流布、原典は確認されていない"
+  },
+  {
+    "id": "q0184",
+    "text": "驚きは、知恵の始まりである。",
+    "original": "Wonder is the beginning of wisdom.",
+    "person": "socrates",
+    "tags": [
+      "知恵",
+      "創造"
+    ],
+    "confidence": "verified",
+    "source": "プラトン『テアイテトス』155d の大意"
+  },
+  {
+    "id": "q0185",
+    "text": "魂に翼を与えるもの、それが音楽だ。",
+    "original": "Music gives a soul to the universe, wings to the mind, flight to the imagination.",
+    "person": "plato",
+    "tags": [
+      "創造"
+    ],
+    "confidence": "legend",
+    "source": "プラトンへの帰属は確認できない"
+  },
+  {
+    "id": "q0186",
+    "text": "始まりは、仕事の最も重要な部分である。",
+    "original": "The beginning is the most important part of the work.",
+    "person": "plato",
+    "tags": [
+      "努力",
+      "知恵"
+    ],
+    "confidence": "verified",
+    "source": "『国家』第2巻"
+  },
+  {
+    "id": "q0187",
+    "text": "夜明け前が、いちばん暗い。",
+    "original": "The darkest hour is just before the dawn.",
+    "person": "fukuzawa",
+    "tags": [
+      "希望"
+    ],
+    "confidence": "legend",
+    "source": "英語の諺で福澤の言葉ではない（トーマス・フラー 1650 が初出とされる）"
+  },
+  {
+    "id": "q0188",
+    "text": "自由とは、自分の行いに責任を持つことである。",
+    "original": "",
+    "person": "fukuzawa",
+    "tags": [
+      "自由"
+    ],
+    "confidence": "attributed",
+    "source": "『学問のすゝめ』の独立自尊の思想の要約"
+  },
+  {
+    "id": "q0189",
+    "text": "未来はいくつもの名を持つ。弱き者には不可能、臆病者には未知。だが勇者には機会という名で呼ばれる。",
+    "original": "L'avenir a plusieurs noms.",
+    "person": "hugo",
+    "tags": [
+      "勇気",
+      "希望"
+    ],
+    "confidence": "attributed",
+    "source": "ユゴーの演説の言い回しとして伝わる"
+  },
+  {
+    "id": "q0190",
+    "text": "旅人よ、道はない。歩くことで道はできる。",
+    "original": "Caminante, no hay camino, se hace camino al andar.",
+    "person": "machado",
+    "tags": [
+      "勇気",
+      "生き方"
+    ],
+    "confidence": "verified",
+    "source": "『カスティーリャの野』(1912)"
+  },
+  {
+    "id": "q0191",
+    "text": "今日を楽しめ。昨日はすでに過ぎ去り、明日はまだ来ていないのだから。",
+    "original": "",
+    "person": "khayyam",
+    "tags": [
+      "生き方",
+      "希望"
+    ],
+    "confidence": "attributed",
+    "source": "『ルバイヤート』の主題の要約として流布"
+  },
+  {
+    "id": "q0192",
+    "text": "人にものを教えることはできない。自らのうちに見出すのを助けることができるだけだ。",
+    "original": "You cannot teach a man anything; you can only help him find it within himself.",
+    "person": "galileo",
+    "tags": [
+      "知恵"
+    ],
+    "confidence": "legend",
+    "source": "ガリレオへの帰属は確認できない"
+  },
+  {
+    "id": "q0193",
+    "text": "雲の向こうでは、太陽が今も輝いている。",
+    "original": "Behind the clouds is the sun still shining.",
+    "person": "longfellow",
+    "tags": [
+      "希望",
+      "自然"
+    ],
+    "confidence": "verified",
+    "source": "詩 The Rainy Day (1842)"
+  },
+  {
+    "id": "q0194",
+    "text": "我々の運命は、我々の星にあるのではなく、我々自身の中にある。",
+    "original": "The fault, dear Brutus, is not in our stars, but in ourselves.",
+    "person": "shakespeare",
+    "tags": [
+      "自由",
+      "勇気"
+    ],
+    "confidence": "verified",
+    "source": "『ジュリアス・シーザー』第1幕第2場"
+  },
+  {
+    "id": "q0195",
+    "text": "臆病者は本当の死の前に何度も死ぬが、勇者は一度しか死を味わわない。",
+    "original": "Cowards die many times before their deaths; the valiant never taste of death but once.",
+    "person": "shakespeare",
+    "tags": [
+      "勇気"
+    ],
+    "confidence": "verified",
+    "source": "『ジュリアス・シーザー』第2幕第2場"
+  },
+  {
+    "id": "q0196",
+    "text": "どんなに長い夜も、必ず明ける。",
+    "original": "The night is long that never finds the day.",
+    "person": "shakespeare",
+    "tags": [
+      "希望"
+    ],
+    "confidence": "verified",
+    "source": "『マクベス』第4幕第3場"
+  },
+  {
+    "id": "q0197",
+    "text": "自然をよく見なさい。そうすれば、すべてをより良く理解できる。",
+    "original": "Look deep into nature, and then you will understand everything better.",
+    "person": "einstein",
+    "tags": [
+      "自然",
+      "知恵"
+    ],
+    "confidence": "attributed",
+    "source": "アインシュタインの言葉として広く伝わる"
+  },
+  {
+    "id": "q0198",
+    "text": "大切なのは、問うことをやめないことだ。好奇心はそれ自体に存在理由がある。",
+    "original": "The important thing is not to stop questioning. Curiosity has its own reason for existing.",
+    "person": "einstein",
+    "tags": [
+      "知恵",
+      "創造"
+    ],
+    "confidence": "verified",
+    "source": "LIFE誌インタビュー (1955)"
+  },
+  {
+    "id": "q0199",
+    "text": "本を読まない人は、読めない人と何も変わらない。",
+    "original": "The man who does not read has no advantage over the man who cannot read.",
+    "person": "twain",
+    "tags": [
+      "知恵",
+      "ユーモア"
+    ],
+    "confidence": "legend",
+    "source": "トウェインへの帰属は確認できない"
+  },
+  {
+    "id": "q0200",
+    "text": "人生における最も偉大な栄光は、決して転ばないことではなく、転ぶたびに起き上がることにある。",
+    "original": "The greatest glory in living lies not in never falling, but in rising every time we fall.",
+    "person": "confucius",
+    "tags": [
+      "勇気",
+      "努力"
+    ],
+    "confidence": "legend",
+    "source": "孔子に帰属されるが『論語』にはなく、ゴールドスミスの言い回し (1762) に近い"
+  }
 ]
