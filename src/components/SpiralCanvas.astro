@@ -298,7 +298,12 @@
     const bootScale = 1 + 0.9 * (1 - boot);
     ctx.globalAlpha = boot * boot;
 
-    for (const p of pts) p.ownAngle += p.ownRotSpeed;
+    /* ポップアップ表示中の点は固有公転を減速（読みやすく、星が立ち止まる演出） */
+    const popupOpen = window.__quotePopupState && window.__quotePopupState.open;
+    for (let pi = 0; pi < pts.length; pi++) {
+      const damp = (popupOpen && pi === ambientIdx) ? 0.12 : 1;
+      pts[pi].ownAngle += pts[pi].ownRotSpeed * damp;
+    }
 
     const idle       = performance.now() - lastScrollTime;
     const idleFactor = Math.max(0, Math.min(1, (idle - IDLE_DELAY) / 800));
