@@ -6,6 +6,18 @@
 <!-- 固定全画面レイヤー。HUD(z5)とタイムライン(z4)の下、グリッドオーバーレイ(z1-2)の上 -->
 <div id="spiral-root" style="position:fixed;inset:0;overflow:hidden;background:#01020a;z-index:3;">
   <canvas id="spiral-canvas" style="display:block;position:absolute;inset:0;width:100%;height:100%;touch-action:none;"></canvas>
+  <!-- 起動シーケンス（ブート演出と同期して消える） -->
+  <div id="boot-seq" style="
+    position:absolute;inset:0;z-index:2;
+    display:flex;align-items:center;justify-content:center;
+    pointer-events:none;
+    transition:opacity .8s ease;
+  ">
+    <div id="boot-seq-lines" style="
+      font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;
+      color:rgba(160,180,255,.8);line-height:2.1;min-width:340px;
+    "></div>
+  </div>
   <div id="spiral-hint" style="
     position:absolute;bottom:56px;left:50%;transform:translateX(-50%);
     font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.3em;
@@ -279,6 +291,47 @@
   const bootStart = performance.now();
   function easeOutC(x) { return 1 - Math.pow(1 - x, 3); }
   setTimeout(() => { if (hintShown && hint) hint.style.opacity = '1'; }, BOOT_MS);
+
+  /* ── 起動シーケンス表示（宇宙の収束と同期して消える） ── */
+  (function bootSequence() {
+    const seq   = document.getElementById('boot-seq');
+    const lines = document.getElementById('boot-seq-lines');
+    if (!seq || !lines) return;
+    const nQuotes = points.filter(p => p.kind !== 'article').length;
+    const nMinds  = new Set(points.filter(p => p.kind !== 'article')
+      .map(p => (p.personData && p.personData.name) || '')).size;
+    const SEQ = [
+      'HARU-01 // WORD-COSMOS',
+      '> BOOT SPIRAL FIELD',
+      `> LOAD ${nQuotes} WORDS / ${nMinds} MINDS`,
+      '> CALIBRATE ORBITS',
+      '> WELCOME, TRAVELER',
+    ];
+    const STEP = 380;            // 行表示の間隔
+    const OK_DELAY = 220;        // OK が灯るまで
+    SEQ.forEach((text, i) => {
+      setTimeout(() => {
+        const row = document.createElement('div');
+        if (i === 0) {
+          row.textContent = text;
+          row.style.cssText = 'color:rgba(200,214,255,.9);margin-bottom:6px;';
+        } else if (i === SEQ.length - 1) {
+          row.textContent = text;
+          row.style.cssText = 'color:rgba(124,155,255,.95);margin-top:6px;';
+        } else {
+          row.innerHTML = text +
+            ' <span style="opacity:.35">..........</span> ' +
+            '<span class="bs-ok" style="opacity:0;color:#6db87a;transition:opacity .25s;">OK</span>';
+        }
+        lines.appendChild(row);
+        const ok = row.querySelector('.bs-ok');
+        if (ok) setTimeout(() => { ok.style.opacity = '1'; }, OK_DELAY);
+      }, 200 + i * STEP);
+    });
+    // 宇宙が姿を現す頃にフェードアウト
+    setTimeout(() => { seq.style.opacity = '0'; }, 2500);
+    setTimeout(() => { seq.remove(); }, 3400);
+  })();
 
   /* ── アンビエント表示 ─────────────────────────
    * 放置中 12〜25 秒間隔で、手前の名言点を増光させてポップアップ */
