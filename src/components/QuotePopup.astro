@@ -1,0 +1,135 @@
+---
+// QuotePopup.astro
+// window.openQuotePopup(point, x, y, {auto}) / window.closeQuotePopup() で制御。
+// auto=true はアンビエント表示（15秒で自動クローズ、ホバーで延命）。
+---
+
+<div id="quote-popup" style="
+  position:fixed;z-index:25;width:min(360px, 82vw);
+  background:rgba(6,9,30,.92);backdrop-filter:blur(14px);
+  border:1px solid rgba(100,130,255,.22);border-radius:14px;
+  padding:18px 20px 16px;
+  opacity:0;pointer-events:none;transform:translateY(6px);
+  transition:opacity .5s ease, transform .5s ease;
+  font-family:'DM Mono',monospace;color:#c0ccff;
+  box-shadow:0 12px 48px -12px rgba(40,60,200,.35);
+">
+  <button id="qp-close" aria-label="閉じる" style="
+    position:absolute;top:8px;right:10px;border:none;background:none;
+    color:rgba(192,204,255,.45);font-size:12px;cursor:pointer;padding:4px;
+  ">✕</button>
+  <div id="qp-tags" style="font-size:8px;letter-spacing:.2em;opacity:.45;margin-bottom:10px;"></div>
+  <div id="qp-text" style="
+    font-family:'Noto Serif JP',serif;font-size:15px;line-height:1.85;
+    color:#dde4ff;letter-spacing:.03em;margin-bottom:10px;
+  "></div>
+  <div id="qp-original" style="font-size:10px;line-height:1.6;opacity:.4;font-style:italic;margin-bottom:12px;"></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+    <div>
+      <span id="qp-person" style="font-size:11px;color:#9fb4ff;"></span>
+      <span id="qp-conf" style="font-size:8px;letter-spacing:.12em;opacity:.4;margin-left:8px;"></span>
+    </div>
+    <button id="qp-expand" style="
+      border:1px solid rgba(100,130,255,.25);border-radius:999px;
+      background:rgba(100,130,255,.07);color:#b8c8ff;cursor:pointer;
+      font-family:inherit;font-size:9px;letter-spacing:.1em;padding:4px 12px;
+      white-space:nowrap;
+    ">この人物について ▾</button>
+  </div>
+  <div id="qp-bio" style="
+    max-height:0;overflow:hidden;transition:max-height .5s ease, opacity .5s ease;
+    opacity:0;
+  ">
+    <div style="border-top:1px solid rgba(100,130,255,.12);margin-top:14px;padding-top:12px;">
+      <div id="qp-bio-head" style="font-size:10px;color:#9fb4ff;margin-bottom:6px;"></div>
+      <div id="qp-bio-text" style="font-size:11px;line-height:1.8;opacity:.6;"></div>
+    </div>
+  </div>
+  <div id="qp-source" style="font-size:8px;opacity:.3;margin-top:10px;letter-spacing:.04em;"></div>
+</div>
+
+<script is:inline>
+(function () {
+  const pop   = document.getElementById('quote-popup');
+  const elTags = document.getElementById('qp-tags');
+  const elText = document.getElementById('qp-text');
+  const elOrig = document.getElementById('qp-original');
+  const elPerson = document.getElementById('qp-person');
+  const elConf = document.getElementById('qp-conf');
+  const elBio  = document.getElementById('qp-bio');
+  const elBioHead = document.getElementById('qp-bio-head');
+  const elBioText = document.getElementById('qp-bio-text');
+  const elSource  = document.getElementById('qp-source');
+  const btnExpand = document.getElementById('qp-expand');
+
+  window.__quotePopupState = { open: false, auto: false };
+  let hideTimer = null;
+
+  const CONF_LABEL = { verified: '', attributed: '〔伝〕', legend: '〔伝承〕' };
+
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+  window.openQuotePopup = function (q, x, y, opts) {
+    const auto = !!(opts && opts.auto);
+    const person = q.personData || {};
+
+    elTags.textContent  = (q.tags || []).map(t => '#' + t).join(' ');
+    elText.textContent  = q.text;
+    elOrig.textContent  = q.original || '';
+    elOrig.style.display = q.original ? 'block' : 'none';
+    elPerson.textContent = '— ' + (person.name || '');
+    elConf.textContent  = CONF_LABEL[q.confidence] || '';
+    elBioHead.textContent = (person.name || '') + '（' + (person.years || '') + '） · ' + (person.title || '');
+    elBioText.textContent = person.bio || '';
+    elSource.textContent  = (q.confidence === 'verified' && q.source) ? '出典: ' + q.source : '';
+    elBio.style.maxHeight = '0'; elBio.style.opacity = '0';
+    btnExpand.textContent = 'この人物について ▾';
+
+    // 点の近くに配置（画面端でクランプ）
+    requestAnimationFrame(() => {
+      const w = pop.offsetWidth, h = pop.offsetHeight;
+      pop.style.left = clamp(x + 18, 12, window.innerWidth  - w - 12) + 'px';
+      pop.style.top  = clamp(y - h / 2, 64, window.innerHeight - h - 56) + 'px';
+      pop.style.opacity = '1';
+      pop.style.transform = 'translateY(0)';
+      pop.style.pointerEvents = 'all';
+    });
+
+    window.__quotePopupState = { open: true, auto };
+    clearTimeout(hideTimer);
+    if (auto) hideTimer = setTimeout(() => window.closeQuotePopup(), 15000);
+  };
+
+  window.closeQuotePopup = function () {
+    clearTimeout(hideTimer);
+    pop.style.opacity = '0';
+    pop.style.transform = 'translateY(6px)';
+    pop.style.pointerEvents = 'none';
+    window.__quotePopupState = { open: false, auto: false };
+  };
+
+  // ホバー中は自動クローズを保留（読んでいる最中に消えない）
+  pop.addEventListener('mouseenter', () => clearTimeout(hideTimer));
+  pop.addEventListener('mouseleave', () => {
+    if (window.__quotePopupState.open && window.__quotePopupState.auto) {
+      hideTimer = setTimeout(() => window.closeQuotePopup(), 6000);
+    }
+  });
+
+  btnExpand.addEventListener('click', () => {
+    const opened = elBio.style.maxHeight !== '0px' && elBio.style.maxHeight !== '0';
+    if (opened) {
+      elBio.style.maxHeight = '0'; elBio.style.opacity = '0';
+      btnExpand.textContent = 'この人物について ▾';
+    } else {
+      elBio.style.maxHeight = '220px'; elBio.style.opacity = '1';
+      btnExpand.textContent = '閉じる ▴';
+      // 人物紹介を開いたら自動クローズは解除（読む意思がある）
+      clearTimeout(hideTimer);
+      window.__quotePopupState.auto = false;
+    }
+  });
+
+  document.getElementById('qp-close').addEventListener('click', () => window.closeQuotePopup());
+})();
+</script>
