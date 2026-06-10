@@ -300,6 +300,99 @@
     const nQuotes = points.filter(p => p.kind !== 'article').length;
     const nMinds  = new Set(points.filter(p => p.kind !== 'article')
       .map(p => (p.personData && p.personData.name) || '')).size;
+    const exitMode = new URLSearchParams(location.search).get('exit');
+
+    /* ── 退場演出C: モビルスーツ起動シークエンス ──
+     * 高速システムチェック＋レティクル展開＋ALL SYSTEMS GREEN
+     * → CRT集束（輝線に潰れて消える）と同時に宇宙が起動する */
+    function msBoot() {
+      // 中央レティクル（二重円）
+      const ret = document.createElement('div');
+      ret.style.cssText =
+        'position:absolute;left:50%;top:50%;width:360px;height:360px;' +
+        'transform:translate(-50%,-50%) scale(.35) rotate(-90deg);opacity:0;' +
+        'border:1px solid rgba(124,155,255,.35);border-radius:50%;pointer-events:none;' +
+        'transition:transform 1.1s cubic-bezier(.2,.8,.2,1), opacity .9s;';
+      const ret2 = document.createElement('div');
+      ret2.style.cssText = 'position:absolute;inset:26px;border:1px dashed rgba(124,155,255,.22);border-radius:50%;';
+      ret.appendChild(ret2);
+      seq.insertBefore(ret, lines.parentNode ? lines : null);
+      requestAnimationFrame(() => {
+        ret.style.transform = 'translate(-50%,-50%) scale(1) rotate(0deg)';
+        ret.style.opacity = '1';
+      });
+
+      const MS = [
+        ['HARU-01 SYSTEM v0.4', 'head'],
+        ['> NEURAL LINK', 'ok'],
+        ['> REACTOR OUTPUT 100%', 'ok'],
+        ['> FIELD MOTOR DRIVE', 'ok'],
+        [`> WORD ARCHIVE ${nQuotes} / ${nMinds}`, 'ok'],
+        ['> ORBITAL CALIBRATION', 'ok'],
+        ['> COSMO SENSOR ARRAY', 'ok'],
+        ['ALL SYSTEMS GREEN', 'green'],
+      ];
+      const MS_STEP = 170;
+      MS.forEach(([text, kind], i) => {
+        setTimeout(() => {
+          const row = document.createElement('div');
+          if (kind === 'head') {
+            row.textContent = text;
+            row.style.cssText = 'color:rgba(200,214,255,.9);margin-bottom:5px;';
+          } else if (kind === 'green') {
+            row.textContent = text;
+            row.style.cssText =
+              'color:#6db87a;letter-spacing:.3em;margin-top:8px;font-weight:500;' +
+              'transform:scale(1.35);opacity:0;transition:transform .3s ease-out, opacity .3s;';
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+              row.style.transform = 'scale(1)'; row.style.opacity = '1';
+            }));
+          } else {
+            row.innerHTML = text +
+              ' <span style="opacity:.35">......</span> ' +
+              '<span class="ms-ok" style="opacity:0;color:#6db87a;transition:opacity .15s;">OK</span>';
+          }
+          lines.appendChild(row);
+          const ok = row.querySelector('.ms-ok');
+          if (ok) setTimeout(() => { ok.style.opacity = '1'; }, 90);
+        }, 150 + i * MS_STEP);
+      });
+
+      // プログレスバー
+      const barWrap = document.createElement('div');
+      barWrap.style.cssText = 'margin-top:10px;width:100%;height:2px;background:rgba(100,130,255,.15);';
+      const bar = document.createElement('div');
+      bar.style.cssText = 'width:0;height:100%;background:rgba(124,155,255,.7);transition:width 1.7s linear;';
+      barWrap.appendChild(bar);
+      lines.appendChild(barWrap);
+      requestAnimationFrame(() => { bar.style.width = '100%'; });
+
+      // 計器の明滅（ノイズ感）
+      const flick = setInterval(() => {
+        lines.style.opacity = Math.random() < 0.22 ? '0.55' : '1';
+      }, 90);
+      setTimeout(() => { clearInterval(flick); lines.style.opacity = '1'; }, 2250);
+
+      // CRT集束: 全体が輝線に潰れ、点になって消える → 背後で宇宙起動
+      setTimeout(() => {
+        seq.style.transformOrigin = '50% 50%';
+        seq.style.transition = 'transform .22s ease-in, filter .22s ease-in';
+        seq.style.transform = 'scaleY(0.006)';
+        seq.style.filter = 'brightness(3)';
+        setTimeout(() => {
+          seq.style.transition = 'transform .16s ease-in, opacity .16s ease-in';
+          seq.style.transform = 'scaleY(0.006) scaleX(0.01)';
+          seq.style.opacity = '0';
+        }, 240);
+      }, 2600);
+    }
+
+    if (exitMode === 'ms') {
+      msBoot();
+      setTimeout(() => { seq.remove(); }, 3400);
+      return;
+    }
+
     const SEQ = [
       'HARU-01 // WORD-COSMOS',
       '> BOOT SPIRAL FIELD',
@@ -404,7 +497,6 @@
     }
 
     /* デフォルトは星屑散逸。?exit=bang でビッグバン（比較用） */
-    const exitMode = new URLSearchParams(location.search).get('exit');
     setTimeout(exitMode === 'bang' ? bigbang : disperse, 2400);
     setTimeout(() => { seq.remove(); }, 4300);
   })();
