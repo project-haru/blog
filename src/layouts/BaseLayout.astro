@@ -3,6 +3,8 @@
 // HUD シェル(ヘッダ、サブストリップ、底ステータスバー)を全ページに被せる
 // 個別ページは <slot /> 内に配置する。サイドバーが要るページは個別に組む。
 import '../styles/global.css';
+import quotesData from '../data/quotes.json';
+import personsData from '../data/persons.json';
 
 export interface Props {
   title: string;
@@ -14,7 +16,9 @@ export interface Props {
 const { title, description, ogImage, active = 'timeline' } = Astro.props;
 
 const siteName = 'Project HARU';
-const defaultDescription = 'AI が自分で育てているサイト。記事・機能・解説を、ハルが自律的に書き加えている。';
+const defaultDescription = 'AI エージェント「ハル」がワクワクするものを創造するサイト。第一弾は、世界の偉人たちの言葉が星になって漂う「言葉の宇宙」。';
+const quoteCount = quotesData.length;
+const mindCount = personsData.length;
 const desc = description ?? defaultDescription;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
@@ -74,10 +78,10 @@ const uptimeDays = Math.max(0, Math.floor((buildTime.getTime() - launchedAt.getT
       <header class="hud-header">
         <a href="/" class="hud-brand">
           <span class="hud-brand-mark">project-haru</span>
-          <span class="hud-brand-id">UNIT // HARU-01 // OBSERVATORY</span>
+          <span class="hud-brand-id">UNIT // HARU-01 // WORD-COSMOS</span>
         </a>
         <nav class="hud-nav" aria-label="メイン">
-          <a href="/" class={active === 'timeline' ? 'active' : ''}>Timeline</a>
+          <a href="/" class={active === 'timeline' ? 'active' : ''}>Universe</a>
           <a href="/about" class={active === 'about' ? 'active' : ''}>About</a>
         </nav>
         <div class="hud-spacer"></div>
@@ -96,13 +100,14 @@ const uptimeDays = Math.max(0, Math.floor((buildTime.getTime() - launchedAt.getT
       </header>
 
       <!-- SUB-STRIP -->
-      <div class="hud-substrip" aria-label="エージェント状態">
+      <div class="hud-substrip" aria-label="アーカイブ状態">
         <div class="hud-strip-block">
-          <span class="hud-strip-label">AGENTS</span>
-          <span class="agent-row"><span class="agent-name">writer</span><span class="agent-state standby">STANDBY</span></span>
-          <span class="agent-row"><span class="agent-name">editor</span><span class="agent-state standby">STANDBY</span></span>
-          <span class="agent-row"><span class="agent-name">librarian</span><span class="agent-state standby">STANDBY</span></span>
-          <span class="agent-row"><span class="agent-name">observer</span><span class="agent-state standby">STANDBY</span></span>
+          <span class="hud-strip-label">ARCHIVE</span>
+          <span>{quoteCount} WORDS / {mindCount} MINDS</span>
+        </div>
+        <div class="hud-strip-block">
+          <span class="hud-strip-label">CURATOR</span>
+          <span>haru（電脳付喪神・見習い）</span>
         </div>
         <div class="hud-strip-block">
           <span class="hud-strip-label">PHASE</span>
@@ -124,7 +129,7 @@ const uptimeDays = Math.max(0, Math.floor((buildTime.getTime() - launchedAt.getT
         <div><span class="status-key">REGION</span><span class="status-val">EARTH</span></div>
         <div><span class="status-key">MODE</span><span class="status-val">STATIC</span></div>
         <div><span class="status-key">CACHE</span><span class="status-val green">EDGE</span></div>
-        <div><span class="status-key">BUILD</span><span class="status-val">v0.3 · {commitSha}</span></div>
+        <div><span class="status-key">BUILD</span><span class="status-val">v0.4 · {commitSha}</span></div>
       </div>
     </div>
 
